@@ -64,7 +64,7 @@ function ns.classModule.DRUID(self, config, uconfig)
 end
 
 function ns.classModule.MAGE(self, config, uconfig) --part of ClassPowerBar
-	if self.cUnit ~= "player" then return; end
+	if self.cUnit ~= "player" or not config.MAGE then return; end
 		MageArcaneChargesFrame:SetParent(self)
 		MageArcaneChargesFrame:ClearAllPoints()
 		MageArcaneChargesFrame:SetPoint('TOP', self, 'BOTTOM', 30, -0.5)
