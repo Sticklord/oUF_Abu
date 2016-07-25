@@ -82,10 +82,11 @@ ns.defaultConfig = {
 	-- blizzard class stuff
 	DEATHKNIGHT = true,
 	DRUID = true,
-	PALADIN = true,
-	SHAMAN = true,
-	PRIEST = true,
+	MAGE = true,
 	MONK = true,
+	PALADIN = true,
+	PRIEST = true,
+	SHAMAN = true,
 	WARLOCK = true,
 
 	absorbBar = true,
