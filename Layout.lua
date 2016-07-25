@@ -456,7 +456,7 @@ local function CreateUnitLayout(self, unit)
 			local portrait = self.Portrait
 			local _, class = UnitClass(self.unit)
 			if config.classPortraits and UnitIsPlayer(unit) and class then
-				portrait:SetTexCoord(unpack(CLASS_BUTTONS[class]))
+				portrait:SetTexCoord(unpack(CLASS_ICON_TCOORDS[class]))
 				portrait:SetTexture[[Interface\TargetingFrame\UI-Classes-Circles]]
 			else
 				portrait:SetTexCoord(0, 1, 0, 1)
@@ -653,7 +653,7 @@ local function CreateUnitLayout(self, unit)
 
 		-- PvP Timer
 		self.PvPTimer = ns.CreateFontString(self, 13, 'CENTER')
-		self.PvPTimer:SetPoint('BOTTOM', self.PvP, 'TOP', -9, -3   )
+		self.PvPTimer:SetPoint('BOTTOM', self.PvP, 'TOP', 2, -24  )
 		self.PvPTimer.frequentUpdates = 0.5
 		self:Tag(self.PvPTimer, '[pvptimer]')
 
@@ -661,7 +661,7 @@ local function CreateUnitLayout(self, unit)
 		self.Combat = self:CreateTexture(nil, 'OVERLAY')
 		self.Combat:SetPoint('CENTER', self.Level, 1, 0)
 		self.Combat:SetSize(31, 33)
-
+		
 		-- Resting icon
 		self.Resting = self:CreateTexture(nil, 'OVERLAY')
 		self.Resting:SetPoint('CENTER', self.Level, -0.5, 0)
