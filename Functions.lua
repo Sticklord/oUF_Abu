@@ -111,8 +111,6 @@ local function SetValueText(element, tag, cur, max, color, notMana)
 		s = format('%s', FormatValue(max))
 	elseif tag == TEXT_DEF then
 		s = format('%s', (cur == max and '' or '-'..FormatValue(max-cur)))
-	elseif tag == TEXT_PERCENTD then
-		s = format('%.1f%%', cur / max * 100)
 	elseif tag == TEXT_PERCENT then
 		s = format('%d%%', cur / max * 100)
 	else
@@ -130,7 +128,7 @@ do
 	local tagtable = {
 		NUMERIC = {TEXT_MINMAX, TEXT_SHORT,  	TEXT_MAX },
 		BOTH	= {TEXT_MINMAX, TEXT_LONG,  	TEXT_MAX },
-		PERCENT = {TEXT_SHORT, 	TEXT_PERCENTD, 	TEXT_PERCENT },
+		PERCENT = {TEXT_SHORT, 	TEXT_PERCENT, 	TEXT_PERCENT },
 		MINIMAL = {TEXT_SHORT, 	TEXT_PERCENT, 	TEXT_NONE },
 		DEFICIT = {TEXT_DEF, 	TEXT_DEF, 		TEXT_NONE },
 	}
@@ -227,7 +225,7 @@ end
 do
 	local tagtable = {
 		NUMERIC	=	{TEXT_MINMAX, 	TEXT_SHORT,  	TEXT_MAX },
-		PERCENT	=	{TEXT_SHORT, 	TEXT_PERCENTD, 	TEXT_PERCENT },
+		PERCENT	=	{TEXT_SHORT, 	TEXT_PERCENT, 	TEXT_PERCENT },
 		MINIMAL	=	{TEXT_SHORT, 	TEXT_PERCENT, 	TEXT_NONE },
 	}
 
