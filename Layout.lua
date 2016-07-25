@@ -653,7 +653,7 @@ local function CreateUnitLayout(self, unit)
 
 		-- PvP Timer
 		self.PvPTimer = ns.CreateFontString(self, 13, 'CENTER')
-		self.PvPTimer:SetPoint('BOTTOM', self.PvP, 'TOP', 1, -23  )
+		self.PvPTimer:SetPoint('BOTTOM', self.PvP, 'TOP', -9, -3   )
 		self.PvPTimer.frequentUpdates = 0.5
 		self:Tag(self.PvPTimer, '[pvptimer]')
 
