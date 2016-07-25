@@ -23,6 +23,7 @@ function ns.classModule.Totems(self, config, uconfig) --totems overlap manabar b
 		_G['TotemFrameTotem'..i.. 'Duration']:SetShadowOffset(0, 0)
 	end
 	
+	
 end
 
 function ns.classModule.alternatePowerBar(self, config, uconfig)
@@ -63,10 +64,14 @@ function ns.classModule.DRUID(self, config, uconfig)
 end
 
 function ns.classModule.MAGE(self, config, uconfig) --part of ClassPowerBar
-	if self.cUnit ~= "player" or not config.MAGE then return; end
+	if self.cUnit ~= "player" then return; end
 		MageArcaneChargesFrame:SetParent(self)
 		MageArcaneChargesFrame:ClearAllPoints()
 		MageArcaneChargesFrame:SetPoint('TOP', self, 'BOTTOM', 30, -0.5)
+		-- Arcane (Arcane Familiar)
+		hooksecurefunc("TotemFrame_Update", function()	
+			TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -12);
+		end)
 end
 
 function ns.classModule.MONK(self, config, uconfig)
