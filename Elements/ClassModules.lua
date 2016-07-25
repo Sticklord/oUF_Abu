@@ -44,7 +44,9 @@ function ns.classModule.DEATHKNIGHT(self, config, uconfig)
 	RuneFrame_OnLoad(RuneFrame)
 	RuneFrame:ClearAllPoints()
 	RuneFrame:SetPoint('TOP', self, 'BOTTOM', 33, -1)
-	RuneFrame:SetFrameStrata("LOW");
+	if (ns.config.playerStyle == 'normal') then 
+		RuneFrame:SetFrameStrata("LOW");
+	end
 	for i = 1, 6 do
 		local b = _G['RuneButtonIndividual'..i]
 	end
@@ -127,7 +129,9 @@ function ns.classModule.WARLOCK(self, config, uconfig)
 	WarlockPowerFrame:SetParent(self)
 	WarlockPowerFrame:ClearAllPoints()
 	WarlockPowerFrame:SetPoint('TOP', self, 'BOTTOM', 29, -2)
-	WarlockPowerFrame:SetFrameStrata("LOW");
+	if (ns.config.playerStyle == 'normal') then 
+		WarlockPowerFrame:SetFrameStrata("LOW");
+	end
 	for i = 1, 5 do
 		local shard = _G["WarlockPowerFrameShard"..i];
 	end
