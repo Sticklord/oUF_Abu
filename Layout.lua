@@ -276,7 +276,7 @@ local function UpdatePlayerFrame(self, ...)
 		self.Level:Show()
 
 		self.LFDRole:SetAlpha(1)
-		self.PvP:SetPoint('TOPLEFT', self.Texture, 26, -20)
+		self.PvP:SetPoint('TOPLEFT', self.Texture, 20, -20)
 		self.Leader:SetPoint('TOPLEFT', self.Portrait, 3, 2)
 		self.MasterLooter:SetPoint('TOPRIGHT', self.Portrait, -3, 3)
 		self.RaidIcon:SetPoint('CENTER', self.Portrait, 'TOP', 0, -1)
@@ -480,8 +480,8 @@ local function CreateUnitLayout(self, unit)
 
 		--[[ PvP Icon  ]] --
 		self.PvP = self:CreateTexture(nil, 'OVERLAY')
-		self.PvP:SetSize(54, 54)
-		self.PvP:SetPoint('TOPRIGHT', self.Texture, -7, -20)
+		self.PvP:SetSize(40, 40)
+		self.PvP:SetPoint('TOPRIGHT', self.Texture, -20, -20)
 
 		--[[	Special Bars 		]]
 		-- Incoming Heals
@@ -653,7 +653,7 @@ local function CreateUnitLayout(self, unit)
 
 		-- PvP Timer
 		self.PvPTimer = ns.CreateFontString(self, 13, 'CENTER')
-		self.PvPTimer:SetPoint('BOTTOM', self.PvP, 'TOP', -9, -3   )
+		self.PvPTimer:SetPoint('BOTTOM', self.PvP, 'TOP', 1, -23  )
 		self.PvPTimer.frequentUpdates = 0.5
 		self:Tag(self.PvPTimer, '[pvptimer]')
 
