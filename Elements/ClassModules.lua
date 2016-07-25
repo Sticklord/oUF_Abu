@@ -48,6 +48,10 @@ function ns.classModule.DEATHKNIGHT(self, config, uconfig)
 	for i = 1, 6 do
 		local b = _G['RuneButtonIndividual'..i]
 	end
+	-- Unholy (Dark Arbiter/Gargoyle)
+	hooksecurefunc("TotemFrame_Update", function()	
+		TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 17, 0);
+	end)
 end
 
 function ns.classModule.DRUID(self, config, uconfig)
@@ -85,6 +89,11 @@ function ns.classModule.MONK(self, config, uconfig)
 	ns.PaintFrames(MonkStaggerBar.MonkBorder, 0.3)
 	MonkStaggerBar:SetFrameLevel(1)
 
+	-- Brewmaster (Statue)
+	hooksecurefunc("TotemFrame_Update", function()	
+		TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", -18, -12);
+	end)
+	
 	-- Monk combo points for Windwalker, part of ClassPowerBar
 	MonkHarmonyBarFrame:SetParent(self)
 	MonkHarmonyBarFrame:SetScale(uconfig.scale * 0.81)
@@ -100,6 +109,10 @@ function ns.classModule.PALADIN(self, config, uconfig)
 	PaladinPowerBarFrame:ClearAllPoints()
 	PaladinPowerBarFrame:SetPoint('TOP', self, 'BOTTOM', 27, 4)
 	PaladinPowerBarFrame:SetFrameStrata("LOW");
+	-- Protection (Consecration)
+	hooksecurefunc("TotemFrame_Update", function()	
+		TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 17, 0);
+	end)
 end
 
 function ns.classModule.PRIEST(self, config, uconfig)
