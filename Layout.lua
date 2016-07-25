@@ -637,22 +637,12 @@ local function CreateUnitLayout(self, unit)
 		
 	--[[ 	Player Frame		]] --
 	if (cUnit == 'player') then	
-		-- Vengeance support REMOVED MAYBE
-		if config.showVengeance then
-			--self.Resolve = ns.CreateOutsideBar(self, true, 1, 0, 0)
-		end
+	
 		-- Combo Points
-		--if playerClass == "DRUID" or playerClass == "ROGUE" then
 		ComboPointPlayerFrame:ClearAllPoints()
 		ComboPointPlayerFrame:SetParent(self)
-		ComboPointPlayerFrame:SetPoint('TOP', self, 'BOTTOM', 30, 0)
-
-		local origComboSetPoint = ComboPointPlayerFrame.SetPoint
-		function ComboPointPlayerFrame.SetPoint(self, a,s,d,f,g,h)
-			origComboSetPoint(self, 'TOP', self, 'BOTTOM', 30, 0)
-		end
-
-		--hooksecurefunc(ComboPointPlayerFrame, "SetPoint", function() print(debugstack()) end )
+		ComboPointPlayerFrame:SetPoint('TOP', self, 'BOTTOM', 30, 2)
+		ComboPointPlayerFrame.SetPoint = function() end
 
 
 		--end
@@ -708,14 +698,14 @@ local function CreateUnitLayout(self, unit)
 				else
 					columns, rows = 6, 3
 				end
-				initialAnchor, relAnchor, offX, offY = 'BOTTOMLEFT', 'TOPLEFT', -3, 20
+				initialAnchor, relAnchor, offX, offY = 'BOTTOMLEFT', 'TOPLEFT', -2, 20
 			elseif (mode == "BOTTOM") then
 				if isFocus then
 					columns, rows = 3, 3
 				else
 					columns, rows = 4, 3
 				end
-				initialAnchor, relAnchor, offX, offY = 'TOPLEFT', 'BOTTOMLEFT', -3, -8
+				initialAnchor, relAnchor, offX, offY = 'TOPLEFT', 'BOTTOMLEFT', -2, -8
 			elseif (mode == "LEFT") then
 				if isFocus then
 					columns, rows = 5, 3
