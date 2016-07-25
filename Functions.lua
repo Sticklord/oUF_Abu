@@ -104,7 +104,7 @@ local function SetValueText(element, tag, cur, max, color, notMana)
 	if tag == TEXT_SHORT then
 		s = format('%s', cur > 0 and FormatValue(cur) or '')
 	elseif tag == TEXT_LONG then
-		s = format('%s - %d%%', FormatValue(cur), cur / max * 100)
+		s = format('%s - %.1f%%', FormatValue(cur), cur / max * 100)
 	elseif tag == TEXT_MINMAX then
 		s = format('%s/%s', FormatValue(cur), FormatValue(max))
 	elseif tag == TEXT_MAX then
@@ -112,7 +112,7 @@ local function SetValueText(element, tag, cur, max, color, notMana)
 	elseif tag == TEXT_DEF then
 		s = format('%s', (cur == max and '' or '-'..FormatValue(max-cur)))
 	elseif tag == TEXT_PERCENT then
-		s = format('%d%%', cur / max * 100)
+		s = format('%.1f%%', cur / max * 100)
 	else
 		s = ''
 	end
