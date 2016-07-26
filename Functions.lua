@@ -405,7 +405,8 @@ function ns.CreateStatusBar(parent, layer, name, AddBackdrop)
 	if type(layer) ~= 'string' then layer = 'BORDER' end
 	local bar = CreateFrame('StatusBar', name, parent)
 	bar:SetStatusBarTexture(ns.config.statusbar, layer)
-
+	bar.statusbar = ns.config.statusbar
+	
 	if AddBackdrop then
 		bar:SetBackdrop({bgFile = 'Interface\\Buttons\\WHITE8x8'})
 		local r,g,b,a = unpack(ns.config.backdropColor)
