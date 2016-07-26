@@ -248,12 +248,12 @@ do
 			cur = UnitPowerMax(unit)
 		end
 
-		local _, pType = UnitPowerType(unit)
+		local _, powerToken = UnitPowerType(unit)
 		local color
 		if ns.config.TextPowerColorMode == "CLASS" then
 			color = getClassColor(unit)
 		elseif ns.config.TextPowerColorMode == "TYPE" then
-			color = colors.power[type] or colors.power.FUEL
+			color = colors.power[powerToken] or colors.power.FUEL
 		else
 			color = ns.config.TextPowerColor
 		end
