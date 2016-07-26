@@ -1,14 +1,44 @@
 local _, ns = ...
 ns.classModule = {}
 
-function ns.classModule.Totems(self, config, uconfig) --totems overlap manabar but so did blizzards
-	if self.cUnit ~= "player" then return; end
-
+local function updateTotemPosition()
+	local _, class = UnitClass("player")
 	TotemFrame:ClearAllPoints()
-	TotemFrame:SetPoint('TOP', self.Power, 'BOTTOM', -4, 2)
+	
+	if ( class == "PALADIN" or class == "DEATHKNIGHT"  ) then
+		local hasPet = oUF_AbuPet and oUF_AbuPet:IsShown();
+		if (hasPet) then
+			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12);
+		else
+			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 17, 0);
+		end
+	elseif ( class == "DRUID" ) then
+		local form  = GetShapeshiftFormID();
+		if ( form == CAT_FORM ) then
+			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 37, -5);
+		else
+			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 57, 0);
+		end	
+	elseif ( class == "MAGE" ) then
+		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 0, -12);
+	elseif ( class == "MONK" ) then
+		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12);
+	elseif ( class == "SHAMAN" ) then
+		local form  = GetShapeshiftFormID();
+		if ( ( GetSpecialization() == SPEC_SHAMAN_RESTORATION ) or ( form == 16 ) ) then -- wolf form 
+			TotemFrame:SetPoint('TOP', oUF_AbuPlayer, 'BOTTOM', 27, 2)
+		else
+			TotemFrame:SetPoint('TOP', oUF_AbuPlayer, 'BOTTOM', 27, -10)
+		end		
+	elseif ( class == "WARLOCK" ) then
+		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12);
+	end
+end
+
+function ns.classModule.Totems(self, config, uconfig) --totems overlap manabar but so did blizzards
+	TotemFrame:ClearAllPoints()
 	TotemFrame:SetParent(self)
 	TotemFrame:SetScale(uconfig.scale * 0.81)
-	TotemFrame:Show()
 
 	for i = 1, MAX_TOTEMS do
 		local _, totemBorder = _G['TotemFrameTotem'..i]:GetChildren()
@@ -23,12 +53,14 @@ function ns.classModule.Totems(self, config, uconfig) --totems overlap manabar b
 		_G['TotemFrameTotem'..i.. 'Duration']:SetShadowOffset(0, 0)
 	end
 	
+	_G.TotemFrame_AdjustPetFrame = function() end -- noop these else we'll get taint
+	_G.PlayerFrame_AdjustAttachments = function() end
 	
+	hooksecurefunc("TotemFrame_Update", updateTotemPosition)
+	updateTotemPosition()
 end
 
 function ns.classModule.alternatePowerBar(self, config, uconfig)
-	if self.cUnit ~= "player" then return; end
-	-- Druid Manabar
 	self.DruidMana = ns.CreateOutsideBar(self, false, 0, 0, 1)
 	self.DruidMana.colorPower = true
 
@@ -39,104 +71,76 @@ function ns.classModule.alternatePowerBar(self, config, uconfig)
 end
 
 function ns.classModule.DEATHKNIGHT(self, config, uconfig)
-	if self.cUnit ~= "player" or not config.DEATHKNIGHT then return; end
-	RuneFrame:SetParent(self)
-	RuneFrame_OnLoad(RuneFrame)
-	RuneFrame:ClearAllPoints()
-	RuneFrame:SetPoint('TOP', self, 'BOTTOM', 33, -1)
-	if (ns.config.playerStyle == 'normal') then 
-		RuneFrame:SetFrameStrata("LOW");
+	if (config.DEATHKNIGHT.showRunes) then
+		RuneFrame:SetParent(self)
+		RuneFrame_OnLoad(RuneFrame)
+		RuneFrame:ClearAllPoints()
+		RuneFrame:SetPoint('TOP', self, 'BOTTOM', 33, -1)
+		if (ns.config.playerStyle == 'normal') then 
+			RuneFrame:SetFrameStrata("LOW");
+		end
+		for i = 1, 6 do
+			local b = _G['RuneButtonIndividual'..i]
+		end
 	end
-	for i = 1, 6 do
-		local b = _G['RuneButtonIndividual'..i]
-	end
-	-- Unholy (Dark Arbiter/Gargoyle)
-	hooksecurefunc("TotemFrame_Update", function()	
-		TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 17, 0);
-	end)
-end
-
-function ns.classModule.DRUID(self, config, uconfig)
-	if self.cUnit ~= "player" or not config.DRUID then return; end
-	
-	hooksecurefunc("TotemFrame_Update", function()	
-		local form  = GetShapeshiftFormID();
-		if ( form == CAT_FORM ) then
-			TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 37, -5);
-		else
-			TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 57, 0);
-		end	
-	end)
 end
 
 function ns.classModule.MAGE(self, config, uconfig) --part of ClassPowerBar
-	if self.cUnit ~= "player" or not config.MAGE then return; end
+	if (config.MAGE.showArcaneStacks) then
 		MageArcaneChargesFrame:SetParent(self)
 		MageArcaneChargesFrame:ClearAllPoints()
 		MageArcaneChargesFrame:SetPoint('TOP', self, 'BOTTOM', 30, -0.5)
-		-- Arcane (Arcane Familiar)
-		hooksecurefunc("TotemFrame_Update", function()	
-			TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -12);
-		end)
+	end
 end
 
 function ns.classModule.MONK(self, config, uconfig)
-	if self.cUnit ~= "player" or not config.MONK then return; end
-	-- Stagger Bar for tank monk
-	MonkStaggerBar:SetParent(self)
-	MonkStaggerBar:SetScale(uconfig.scale * .81)
-	MonkStaggerBar_OnLoad(MonkStaggerBar)
-	MonkStaggerBar:ClearAllPoints()
-	MonkStaggerBar:SetPoint('TOP', self, 'BOTTOM', 31, 0)
-	ns.PaintFrames(MonkStaggerBar.MonkBorder, 0.3)
-	MonkStaggerBar:SetFrameLevel(1)
+	if (config.MONK.showStagger) then
+		MonkStaggerBar:SetParent(self)
+		MonkStaggerBar:SetScale(uconfig.scale * .81)
+		MonkStaggerBar_OnLoad(MonkStaggerBar)
+		MonkStaggerBar:ClearAllPoints()
+		MonkStaggerBar:SetPoint('TOP', self, 'BOTTOM', 31, 0)
+		ns.PaintFrames(MonkStaggerBar.MonkBorder, 0.3)
+		MonkStaggerBar:SetFrameLevel(1)
+	end
 
-	-- Brewmaster (Statue)
-	hooksecurefunc("TotemFrame_Update", function()	
-		TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", -18, -12);
-	end)
-	
-	-- Monk combo points for Windwalker, part of ClassPowerBar
-	MonkHarmonyBarFrame:SetParent(self)
-	MonkHarmonyBarFrame:SetScale(uconfig.scale * 0.81)
-	MonkHarmonyBarFrame:ClearAllPoints()
-	MonkHarmonyBarFrame:SetPoint('TOP', self, 'BOTTOM', 31, 18)
-	ns.PaintFrames(select(2, MonkHarmonyBarFrame:GetRegions()), 0.1)
+	if (config.MONK.showChi) then
+		MonkHarmonyBarFrame:SetParent(self)
+		MonkHarmonyBarFrame:SetScale(uconfig.scale * 0.81)
+		MonkHarmonyBarFrame:ClearAllPoints()
+		MonkHarmonyBarFrame:SetPoint('TOP', self, 'BOTTOM', 31, 18)
+		ns.PaintFrames(select(2, MonkHarmonyBarFrame:GetRegions()), 0.1)
+	end
 end
 
 function ns.classModule.PALADIN(self, config, uconfig)
-	if self.cUnit ~= "player" or not config.PALADIN then return; end
-	PaladinPowerBarFrame:SetParent(self)
-	PaladinPowerBarFrame:SetScale(uconfig.scale * 0.81)
-	PaladinPowerBarFrame:ClearAllPoints()
-	PaladinPowerBarFrame:SetPoint('TOP', self, 'BOTTOM', 27, 4)
-	PaladinPowerBarFrame:SetFrameStrata("LOW");
-	-- Protection (Consecration)
-	hooksecurefunc("TotemFrame_Update", function()	
-		TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 17, 0);
-	end)
+	if (config.PALADIN.showHolyPower) then
+		PaladinPowerBarFrame:SetParent(self)
+		PaladinPowerBarFrame:SetScale(uconfig.scale * 0.81)
+		PaladinPowerBarFrame:ClearAllPoints()
+		PaladinPowerBarFrame:SetPoint('TOP', self, 'BOTTOM', 27, 4)
+		PaladinPowerBarFrame:SetFrameStrata("LOW");
+	end
 end
 
 function ns.classModule.PRIEST(self, config, uconfig)
-	if self.cUnit ~= "player" or not config.PRIEST then return; end
+	if (config.PRIEST.showInsanity) then
 		InsanityBarFrame:SetParent(self) 
 		InsanityBarFrame:ClearAllPoints()
 		InsanityBarFrame:SetPoint('BOTTOMRIGHT', self, 'TOPLEFT', 52, -50)
+	end
 end
 
 function ns.classModule.WARLOCK(self, config, uconfig)
-	if self.cUnit ~= "player" or not config.WARLOCK then return; end
-	WarlockPowerFrame:SetParent(self)
-	WarlockPowerFrame:ClearAllPoints()
-	WarlockPowerFrame:SetPoint('TOP', self, 'BOTTOM', 29, -2)
-	if (ns.config.playerStyle == 'normal') then 
-		WarlockPowerFrame:SetFrameStrata("LOW");
+	if (config.WARLOCK.showShards) then
+		WarlockPowerFrame:SetParent(self)
+		WarlockPowerFrame:ClearAllPoints()
+		WarlockPowerFrame:SetPoint('TOP', self, 'BOTTOM', 29, -2)
+		if (ns.config.playerStyle == 'normal') then 
+			WarlockPowerFrame:SetFrameStrata("LOW");
+		end
+		for i = 1, 5 do
+			local shard = _G["WarlockPowerFrameShard"..i];
+		end
 	end
-	for i = 1, 5 do
-		local shard = _G["WarlockPowerFrameShard"..i];
-	end
-	-- Affliction (Soul Effigl)
-	hooksecurefunc("TotemFrame_Update", function()	
-		TotemFrame:SetPoint("TOPLEFT", self, "BOTTOMLEFT", -18, -12);
-	end)
 end
