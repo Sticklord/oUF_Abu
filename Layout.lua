@@ -630,10 +630,6 @@ local function CreateUnitLayout(self, unit)
 
 	-- Update layout
 	UpdateUnitFrameLayout(self, cUnit)
-	-- Load Class Modules
-	if ns.classModule[playerClass] and config then
-		self.classPowerBar = ns.classModule[playerClass](self, config, uconfig)
-	end
 		
 	--[[ 	Player Frame		]] --
 	if (cUnit == 'player') then	
@@ -643,13 +639,22 @@ local function CreateUnitLayout(self, unit)
 		ComboPointPlayerFrame:SetParent(self)
 		ComboPointPlayerFrame:SetPoint('TOP', self, 'BOTTOM', 30, 2)
 		ComboPointPlayerFrame.SetPoint = function() end
+		ns.PaintFrames(ComboPointPlayerFrame.Background, 0.1)
 
-
-		--end
-		--Totems
-		ns.classModule.Totems(self, config, uconfig)
-		--Alternate Mana Bar
-		ns.classModule.alternatePowerBar(self, config, uconfig)
+		-- Totems
+		if ( config[playerClass].showTotems ) then
+			ns.classModule.Totems(self, config, uconfig)
+		end
+		
+		-- Alternate Mana Bar
+		if ( config[playerClass].showAdditionalPower ) then
+			ns.classModule.alternatePowerBar(self, config, uconfig)
+		end
+		
+		-- Load Class Modules
+		if ( ns.classModule[playerClass] ) then
+			self.classPowerBar = ns.classModule[playerClass](self, config, uconfig)
+ 		end
 
 		-- PvP Timer
 		self.PvPTimer = ns.CreateFontString(self, 13, 'CENTER')
