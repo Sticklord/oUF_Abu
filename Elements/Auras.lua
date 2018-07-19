@@ -166,8 +166,8 @@ do
 		pet = true,
 	}
 
-	function postUpdateIcon( element, unit, button, index, offset )
-		local name, _, texture, count, dtype, duration, expirationTime, caster, canStealOrPurge, shouldConsolidate, spellID = UnitAura(unit, index, button.filter)
+	function postUpdateIcon( position, unit, button,index )
+		local name, texture, count, dtype, duration, expirationTime, caster, canStealOrPurge, shouldConsolidate, spellID = UnitAura(unit, index, button.filter)
 		button:EnableMouse(not ns.config.clickThrough)
 		button.overlay:Show()
 		button.shadow:Show()
@@ -206,10 +206,11 @@ do
 				button:SetScript('OnUpdate', nil)
 			end
 		end
-
-		if (element.largeAuraList) then
-			element.largeAuraList[offset] = IS_PLAYER[button.caster]
-		end
+		
+		--if (element.largeAuraList) then
+			--element.largeAuraList[offset] = IS_PLAYER[button.caster]
+		--end
+		
 	end
 end
 

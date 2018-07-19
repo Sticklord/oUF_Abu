@@ -16,11 +16,11 @@ AuraList.CCImmunity = {
 	115018,	-- Desecrated Ground
 	31224,	-- Cloak of Shadows
 	31821,	-- Aura Mastery
-	49039,	-- Lichborne
+	--49039,	-- Lichborne
 	51271,	-- Pillar of Frost
 	53271,	-- Masters Call
 	8178,	-- Grounding Totem Effect (Grounding Totem)
-	114028,	-- Mass Spell Reflection
+	--114028,	-- Mass Spell Reflection
 	23920,	-- Spell Reflection (warrior)
 }
 
@@ -72,7 +72,7 @@ AuraList.Helpful = {
 	118922,	-- Posthaste
 	1850, 	-- Dash
 	2983,	-- Sprint
-	3411,	-- Intervene
+	--3411,	-- Intervene
 	66,		-- Invisibility
 	68992,	-- Darkflight (Worgen racial)
 	740,	-- Tranquility
@@ -123,7 +123,7 @@ AuraList.CC = {
 	102359,	-- Mass Entanglement
 	--10326 removed,	-- Turn Evil
 	105421,	-- Blinding Light
-	107566,	-- Staggering Shout
+	--107566,	-- Staggering Shout
 	114404,	-- Void Tendrils
 	115078,	-- Paralysis
 	116706,	-- Disable (2x)

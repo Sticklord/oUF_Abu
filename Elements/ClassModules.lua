@@ -66,7 +66,7 @@ function ns.classModule.additionalPowerBar(self, config, uconfig)
 	self.AdditionalPower.Value = ns.CreateFontString(self.AdditionalPower, 13, 'CENTER')
 	self.AdditionalPower.Value:SetPoint('CENTER', self.AdditionalPower, 0, 0.5)
 	self.AdditionalPower.Value:Hide()
-	self:Tag(self.AdditionalPower.Value, '[abu:additionalpower]')
+	--self:Tag(self.AdditionalPower.Value, '[abu:additionalpower]')
 end
 
 function ns.classModule.DEATHKNIGHT(self, config, uconfig)
