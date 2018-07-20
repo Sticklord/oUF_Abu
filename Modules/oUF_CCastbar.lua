@@ -66,11 +66,11 @@ local updateSafeZone = function(self)
 	end
 end
 
-local UNIT_SPELLCAST_START = function(self, event, unit, spell)
+local UNIT_SPELLCAST_START = function(self, event, unit)
 	if(self.unit ~= unit) then return end
 
 	local castbar = self.CCastbar
-	local name, _, text, texture, startTime, endTime, _, castid, notInterruptible = UnitCastingInfo(unit)
+	local name, text, texture, startTime, endTime, _, castid, notInterruptible = UnitCastingInfo(unit)
 	if (not name or not castbar.enableCastbar) then
 		castbar:Hide()
 		return
