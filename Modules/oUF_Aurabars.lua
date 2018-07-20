@@ -36,7 +36,12 @@ local function Update(self, event, unit)
 		bar:PreUpdate(unit)
 	end
 	local timeleft
-	local name, _, icon, count, _, duration, expires = UnitAura(unit, bar.spellName, bar.rank, bar.filter)
+	for i=1,40 do
+		local name, _, _, count, _, duration, expires = UnitAura(unit, i, bar.filter)
+		if name==bar.spellName then
+			break
+		end
+	end
 	if duration then
 		timeleft = expires - GetTime()
 		if bar.timeleft and (bar.timeleft >= timeleft) then
