@@ -268,7 +268,7 @@ local UNIT_SPELLCAST_CHANNEL_START = function(self, event, unit, spellname)
 	if(self.unit ~= unit) then return end
 
 	local castbar = self.CCastbar
-	local name, _, text, texture, startTime, endTime, isTrade, interrupt = UnitChannelInfo(unit)
+	local name, text, texture, startTime, endTime, isTrade, interrupt = UnitChannelInfo(unit)
 	if (not name or not castbar.enableCastbar) then
 		return
 	end
@@ -318,7 +318,7 @@ local UNIT_SPELLCAST_CHANNEL_UPDATE = function(self, event, unit, spellname)
 	if(self.unit ~= unit) then return end
 	local castbar = self.CCastbar
 
-	local name, _, text, texture, startTime, endTime, oldStart = UnitChannelInfo(unit)
+	local name,  text, texture, startTime, endTime, oldStart = UnitChannelInfo(unit)
 	if(not name or not castbar:IsShown()) then
 		return
 	end
