@@ -135,6 +135,8 @@ L.Color_PowerBar = "Power Bar Color"
 L.Color_NameText = "Name Text Color"
 L.Color_HealthText = "Health Text Color"
 L.Color_PowerText = "Power Text Color"
+L.Color_Interruptible = "Interruptible Castbar Color"
+L.Color_UnInterruptible = "Uninterrubtible Castbar Color"
 
 ---- FONTS
 L.Font = "Font"

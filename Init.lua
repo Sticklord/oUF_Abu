@@ -16,7 +16,7 @@ ns.Classic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
 ------------------------------------------------------------------------
 --  Colors
-oUF.colors.uninterruptible = { 1, 0.7, 0 }
+-- oUF.colors.uninterruptible = { 1, 0.7, 0 }
 oUF.colors.fallback = { 1, 1, 1 }
 --oUF.colors.smooth = {1, 0, 0,	1, 1, 0,	0, 1, 0}
 --oUF.colors.disconnected = {.6, .6, .6}

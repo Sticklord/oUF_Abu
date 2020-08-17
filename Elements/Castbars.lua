@@ -267,7 +267,7 @@ function ns.UpdateCastbarColor(Castbar, unit)
 	if UnitIsUnit(unit, "player") then
 		color = colors.class[select(2,UnitClass("player"))]
 	elseif Castbar.notInterruptible then
-		color = colors.uninterruptible
+		color = ns.config.castbarUnInterruptibleColor -- colors.uninterruptible
 		text = "white"
 		bR, bG, bB = 0.8, 0.7, 0.2
 	elseif UnitIsFriend(unit, "player") then

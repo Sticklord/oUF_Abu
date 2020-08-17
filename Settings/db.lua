@@ -39,6 +39,8 @@ ns.defaultConfig = {
 
 	castbars = true,
 	castbarSafezoneColor = {.8, 0.4, 0, 1},
+	-- castbarInterruptibleColor = {1, 1, 1},
+	castbarUnInterruptibleColor = {0.7, 0.7, 0.7},
 	portraitTimer = true,
 	combatText = false,
 	ThreatIndicator = true,
