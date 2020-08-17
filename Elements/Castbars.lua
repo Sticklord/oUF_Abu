@@ -267,9 +267,9 @@ function ns.UpdateCastbarColor(Castbar, unit)
 	if UnitIsUnit(unit, "player") then
 		color = colors.class[select(2,UnitClass("player"))]
 	elseif Castbar.notInterruptible then
-		color = ns.config.castbarUnInterruptibleColor -- colors.uninterruptible
+		color = ns.config.castbarUnInterruptibleColor
 		text = "white"
-		bR, bG, bB = 0.8, 0.7, 0.2
+		bR, bG, bB = color[1] * 0.8, color[2] * 0.8, color[3] * 0.8
 	elseif UnitIsFriend(unit, "player") then
 		color = colors.reaction[5]
 	else
@@ -280,6 +280,6 @@ function ns.UpdateCastbarColor(Castbar, unit)
 	Castbar:SetBorderColor(bR, bG, bB)
 
 	local r, g, b = color[1], color[2], color[3]
-	Castbar:SetStatusBarColor(r * 0.8, g * 0.8, b * 0.8)
+	Castbar:SetStatusBarColor(Castbar.notInterruptible and r or r * 0.8, Castbar.notInterruptible and g or g * 0.8, Castbar.notInterruptible and b or b * 0.8)
 	Castbar.Background:SetVertexColor(r * 0.2, g * 0.2, b * 0.2)
 end
