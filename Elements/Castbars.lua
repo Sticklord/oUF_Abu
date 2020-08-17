@@ -280,6 +280,6 @@ function ns.UpdateCastbarColor(Castbar, unit)
 	Castbar:SetBorderColor(bR, bG, bB)
 
 	local r, g, b = color[1], color[2], color[3]
-	Castbar:SetStatusBarColor(Castbar.notInterruptible and r or r * 0.8, Castbar.notInterruptible and g or g * 0.8, Castbar.notInterruptible and b or b * 0.8)
+	Castbar:SetStatusBarColor(r * 0.8, g * 0.8, b * 0.8)
 	Castbar.Background:SetVertexColor(r * 0.2, g * 0.2, b * 0.2)
 end
