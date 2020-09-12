@@ -478,7 +478,7 @@ end
 -- [[ Statusbar Functions ]] --
 function ns.CreateStatusBar(parent, layer, name, AddBackdrop)
 	if type(layer) ~= "string" then layer = "BORDER" end
-	local bar = CreateFrame("StatusBar", name, parent)
+	local bar = CreateFrame("StatusBar", name, parent, BackdropTemplateMixin and "BackdropTemplate")
 	bar:SetStatusBarTexture(ns.config.statusbar, layer)
 	bar.texture = ns.config.statusbar
 	
