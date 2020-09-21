@@ -167,7 +167,7 @@ do
 	}
 
 	function postUpdateIcon( element, unit, button, index, offset )
-		local dtype, duration, expirationTime, _, _, _, spellID = select(3, UnitAura(unit, index, button.filter))
+		local dtype, duration, expirationTime, _, _, _, spellID = select(4, UnitAura(unit, index, button.filter))
 		button:EnableMouse(not ns.config.clickThrough)
 		button.overlay:Show()
 		button.shadow:Show()
