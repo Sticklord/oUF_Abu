@@ -8,7 +8,7 @@
 	self.Aurabar.Override(self, event, unit)
 		- Completely override the update function
 	self.Aurabar.Visibility(self, event, unit)
-		- Already takes vehicles into account	
+		- Already takes vehicles into account
 		- return true or false if it should show
 	self.Aurabar.OverrideVisibility(self, event, unit)
 		- Completely, need to show and register events to the element
@@ -54,7 +54,7 @@ local function Update(self, event, unit)
 		else
 			bar.dur = duration
 		end
-		bar.timeleft = timeleft	
+		bar.timeleft = timeleft
 		bar:Show()
 		bar:SetScript("OnUpdate", UpdateBar)
 	elseif bar:IsShown() then
@@ -62,7 +62,7 @@ local function Update(self, event, unit)
 		bar:SetScript("OnUpdate", nil)
 	end
 
-	if bar.PostUpdate then 
+	if bar.PostUpdate then
 		bar:PostUpdate(unit, timeleft, duration)
 	end
 end
@@ -121,12 +121,12 @@ local function ForceUpdate(bar)
 	return Path(bar.__owner, "ForceUpdate", bar.__owner.unit)
 end
 
-local function Enable(self, unit)
+local function Enable(self)
 	local bar = self.Aurabar
 	if bar then
 		bar.__owner = self
 		bar.ForceUpdate = ForceUpdate
-		
+
 		if(not bar:GetStatusBarTexture()) then
 			bar:SetStatusBarTexture([=[Interface\TargetingFrame\UI-StatusBar]=])
 		end

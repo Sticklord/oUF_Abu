@@ -11,7 +11,7 @@ local heal_format = "+%d"
 local maxAlpha = 0.6
 local updateFrame
 local feedback = {}
-local color 
+local color
 local colors = {
 	STANDARD		= { 1, 1, 1 }, -- color for everything not in the list below
 	-- damage colors
@@ -56,19 +56,19 @@ local function createUpdateFrame()
 				object.CombatFeedbackText:Hide()
 				feedback[object] = nil
 			end
-		end		
+		end
 	end)
 end
 
 
-local function combat(self, event, unit, eventType, flags, amount, dtype)
+local function combat(self, event, unit, eventType, flags, amount)
 	if unit ~= self.unit then return end
 	local FeedbackText = self.CombatFeedbackText
 	local fColors = FeedbackText.colors
-	local font, fontHeight, fontFlags = FeedbackText:GetFont()
+	local font, _, fontFlags = FeedbackText:GetFont()
 
 	if not font then font = STANDARD_TEXT_FONT end
-	fontHeight = FeedbackText.origHeight + 0.5 -- always start at original height
+	local fontHeight = FeedbackText.origHeight + 0.5 -- always start at original height
 	if fontHeight <= 0 then fontHeight = 12 end -- when its not 0
 	if not fontFlags then fontFlags = nil end
 
@@ -149,12 +149,12 @@ end
 local function addCombat(object)
 	if not object.CombatFeedbackText then return end
 	-- store the original starting height
-	local font, fontHeight, fontFlags = object.CombatFeedbackText:GetFont()
+	local fontHeight = select(2, object.CombatFeedbackText:GetFont())
 	object.CombatFeedbackText.origHeight = fontHeight
 	object.CombatFeedbackText.maxAlpha = object.CombatFeedbackText.maxAlpha or maxAlpha
 	createUpdateFrame()
 	object:RegisterEvent("UNIT_COMBAT", combat)
 end
 
-for k, object in ipairs(oUF.objects) do addCombat(object) end
+for _, object in ipairs(oUF.objects) do addCombat(object) end
 oUF:RegisterInitCallback(addCombat)

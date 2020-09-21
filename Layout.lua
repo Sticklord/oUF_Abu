@@ -104,7 +104,7 @@ local DataNormal = {
 	},
 }
 
-local DataFat = {		
+local DataFat = {
 	targetTexture = {
 		elite = pathFat .. "Target-Elite",
 		rareelite = pathFat ..  "Target-Rare-Elite",
@@ -211,7 +211,7 @@ local function GetTargetTexture(cUnit, type)
 	end
 end
 
-local function updatePlayerStatus(element, ...)
+local function updatePlayerStatus(element)
 	local self = element.__owner
 	if UnitAffectingCombat("player") then
 		self.RestingIndicator:Hide()
@@ -225,7 +225,7 @@ local function updatePlayerStatus(element, ...)
 	end
 end
 
-local function UpdatePlayerFrame(self, ...)
+local function UpdatePlayerFrame(self)
 	local data = GetData(self.cUnit)
 	local uconfig = ns.config[self.cUnit]
 	-- Frame Size
@@ -252,7 +252,7 @@ local function UpdatePlayerFrame(self, ...)
 			self.PowerPrediction.altbar:SetSize(self.AdditionalPower:GetSize())
 		end
 	end
-	
+
 	self.Health.Value:SetPoint("CENTER", self.Health, data.hpt.x, config.fontHealthOffset)
 	self.Power.Value:SetPoint("CENTER", self.Power, data.mpt.x, config.fontPowerOffset)
 
@@ -269,20 +269,20 @@ local function UpdatePlayerFrame(self, ...)
 	end
 
 	if self.BuilderSpender then
- 		self.BuilderSpender.FeedbackFrame:SetFrameLevel(self.Power:GetFrameLevel())
- 		self.BuilderSpender.FeedbackFrame:SetAllPoints(self.Power)
+		self.BuilderSpender.FeedbackFrame:SetFrameLevel(self.Power:GetFrameLevel())
+		self.BuilderSpender.FeedbackFrame:SetAllPoints(self.Power)
 		self.BuilderSpender.FeedbackFrame:SetPoint("TOPLEFT", self.Power, "TOPLEFT", 0, -1)
 
 		local POWER = self.BuilderSpender.FullPowerFrame
- 		POWER:SetSize(self.Power:GetSize())
- 		POWER:SetPoint("BOTTOMLEFT", self.Power, "BOTTOMLEFT", 4, -2)
- 		for _,v in pairs({POWER.SpikeFrame.BigSpikeGlow, POWER.SpikeFrame.AlertSpikeStay, POWER.PulseFrame.YellowGlow, POWER.PulseFrame.SoftGlow}) do
- 			local x,y = v:GetSize()
- 			local scale = self.Power:GetHeight()/(PlayerFrameManaBar:GetHeight() or 12)
- 			v:SetSize(x*scale,y*scale)
- 		end
+		POWER:SetSize(self.Power:GetSize())
+		POWER:SetPoint("BOTTOMLEFT", self.Power, "BOTTOMLEFT", 4, -2)
+		for _,v in pairs({POWER.SpikeFrame.BigSpikeGlow, POWER.SpikeFrame.AlertSpikeStay, POWER.PulseFrame.YellowGlow, POWER.PulseFrame.SoftGlow}) do
+			local x,y = v:GetSize()
+			local scale = self.Power:GetHeight()/(PlayerFrameManaBar:GetHeight() or 12)
+			v:SetSize(x*scale,y*scale)
+		end
 	end
-	
+
 	self.PvPIndicator:ClearAllPoints()
 
 	if not ns.Classic then
@@ -357,11 +357,11 @@ local function UpdateUnitFrameLayout(frame)
 	local cUnit = frame.cUnit
 	local data = GetData(cUnit)
 	local uconfig = ns.config[cUnit]
-	
+
 	if (frame.cUnit == "pet" or frame.IsMainFrame or frame.IsTargetFrame ) then
 		frame.CombatFade = ns.config.combatFade
 	end
-	
+
 	-- Combat Fade
 	if frame.CombatFade and not frame:IsElementEnabled("oUF_CombatFade") then
 		frame:EnableElement("oUF_CombatFade")
@@ -369,8 +369,8 @@ local function UpdateUnitFrameLayout(frame)
 		frame:DisableElement("oUF_CombatFade")
 	end
 
-	 -- Player frame, its special
-	if cUnit == "player" then 
+	-- Player frame, its special
+	if cUnit == "player" then
 		return UpdatePlayerFrame(frame)
 	elseif (not data) then
 		return
@@ -400,7 +400,7 @@ local function UpdateUnitFrameLayout(frame)
 	end
 
 	-- ManaText - not for tots
-	if frame.Power.Value then 
+	if frame.Power.Value then
 		frame.Power.Value:SetPoint("CENTER", frame.Power, data.mpt.x, config.fontPowerOffset)
 	end
 	-- NameText
@@ -451,7 +451,7 @@ local function CreateUnitLayout(self, unit)
 
 	--[[	 Mouse Interraction		]]
 	self:RegisterForClicks("AnyUp")
-	
+
 	self:HookScript("OnEnter", ns.UnitFrame_OnEnter)
 	self:HookScript("OnLeave", ns.UnitFrame_OnLeave)
 	self.mouseovers = {}
@@ -498,7 +498,7 @@ local function CreateUnitLayout(self, unit)
 
 	--[[	Health text 		]]
 	self.Health.Value = ns.CreateFontStringNumber(self, data.hpt.s, data.hpt.j)
-		
+
 	--[[	Power bar 			]]
 	self.Power = ns.CreateStatusBar(self, nil, nil, true)
 	self.Power:SetFrameLevel(self:GetFrameLevel()-1)
@@ -542,7 +542,7 @@ local function CreateUnitLayout(self, unit)
 
 	if not ns.Classic then
 		--[[ 	Threat glow		]]
-		if (config.ThreatIndicator) and (data.glo) then 
+		if (config.ThreatIndicator) and (data.glo) then
 			self.ThreatIndicator = self.Health:CreateTexture(nil, "BACKGROUND", nil,-1)
 			self.ThreatIndicator.feedbackUnit = "player"
 		end
@@ -623,7 +623,7 @@ local function CreateUnitLayout(self, unit)
 		end
 	end
 
-	--[[ 	Portrait Timer		]]	
+	--[[ 	Portrait Timer		]]
 	if (config.portraitTimer and self.Portrait) then
 		self.PortraitTimer = CreateFrame("Frame", nil, self.Health)
 
@@ -641,12 +641,12 @@ local function CreateUnitLayout(self, unit)
 	if self.cUnit == "boss" then
 		self.RaidTargetIndicator:SetPoint("CENTER", self, "TOPRIGHT", -9, -10)
 		self.RaidTargetIndicator:SetSize(26, 26)
-		
+
 		self.Name.Bg = self.Health:CreateTexture(nil, "BACKGROUND")
 		self.Name.Bg:SetHeight(18)
 		self.Name.Bg:SetTexCoord(0.2, 0.8, 0.3, 0.85)
 		self.Name.Bg:SetPoint("BOTTOMRIGHT", self.Health, "TOPRIGHT")
-		self.Name.Bg:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT") 
+		self.Name.Bg:SetPoint("BOTTOMLEFT", self.Health, "TOPLEFT")
 		self.Name.Bg:SetTexture(textPath.. "nameBackground")
 
 		if not ns.Classic then
@@ -673,7 +673,7 @@ local function CreateUnitLayout(self, unit)
 			self.LeaderIndicator:SetSize(14, 14)
 			self.LeaderIndicator:SetPoint("CENTER", self.Portrait, "TOPLEFT", 1, -1)
 		end
-		
+
 		if not ns.Classic then
 			if (not self.IsTargetFrame) then
 				self.PhaseIndicator = self:CreateTexture(nil, "OVERLAY")
@@ -716,16 +716,16 @@ local function CreateUnitLayout(self, unit)
 			self.SummonIndicator = SummonIndicator
 		end
 	end
-		
+
 	--[[ 	Player Frame		]] --
 	if (self.cUnit == "player") then
-	
+
 		if not ns.Classic then
 			-- Combo Points
 			ComboPointPlayerFrame:ClearAllPoints()
 			ComboPointPlayerFrame:SetParent(self)
 			ComboPointPlayerFrame:SetPoint("TOP", self, "BOTTOM", 28, 1)
-			ComboPointPlayerFrame.SetPoint = nop
+			ComboPointPlayerFrame.SetPoint = function() end
 			ComboPointPlayerFrame:SetFrameLevel(1)
 			ns.PaintFrames(ComboPointPlayerFrame.Background, 0.1)
 		end
@@ -739,21 +739,21 @@ local function CreateUnitLayout(self, unit)
 		if ( config[playerClass].showAdditionalPower ) then
 			ns.classModule.additionalPowerBar(self, config, uconfig)
 		end
-		
+
 		-- Load Class Modules
 		if ( ns.classModule[playerClass] ) then
 			self.classPowerBar = ns.classModule[playerClass](self, config, uconfig)
- 		end
+		end
 
- 		--Aurabar for a specific buff
- 		self.Aurabar = ns.classModule.addAuraBar(self, config, uconfig)
+		--Aurabar for a specific buff
+		self.Aurabar = ns.classModule.addAuraBar(self, config, uconfig)
 
- 		--builderspender (white overlay when gaining/losing power)
- 		if ( config.builderSpender ) then
-	 		local FeedbackFrame = CreateFrame("Frame", nil, self.Power, "BuilderSpenderFrame")
+		--builderspender (white overlay when gaining/losing power)
+		if ( config.builderSpender ) then
+			local FeedbackFrame = CreateFrame("Frame", nil, self.Power, "BuilderSpenderFrame")
 			FeedbackFrame.BarTexture:SetTexture()
 
-	 		local POWER = CreateFrame("Frame", nil, self.Power, "FullResourcePulseFrame")
+			local POWER = CreateFrame("Frame", nil, self.Power, "FullResourcePulseFrame")
 			self.BuilderSpender = {
 				FeedbackFrame = FeedbackFrame,
 				FullPowerFrame = POWER,
@@ -765,7 +765,7 @@ local function CreateUnitLayout(self, unit)
 		if ( config.powerPredictionBar ) then
 			local mainBar, altBar
 			mainBar = CreateFrame("StatusBar",  self.Power:GetDebugName().."PowerPrediction", self.Power)
-	 		mainBar:SetFrameLevel(self.Power:GetFrameLevel())
+			mainBar:SetFrameLevel(self.Power:GetFrameLevel())
 			mainBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar-Glow]], "BORDER")
 			mainBar:GetStatusBarTexture():SetBlendMode"ADD"
 			mainBar:SetReverseFill(true)
@@ -799,7 +799,7 @@ local function CreateUnitLayout(self, unit)
 		self.CombatIndicator:SetPoint("CENTER", self.Level, 1, 0)
 		self.CombatIndicator:SetSize(31, 33)
 		self.CombatIndicator.PostUpdate = updatePlayerStatus
-		
+
 		-- RestingIndicator icon
 		self.RestingIndicator = self:CreateTexture(nil, "OVERLAY")
 		self.RestingIndicator:SetPoint("CENTER", self.Level, -0.5, 0)
@@ -814,10 +814,10 @@ local function CreateUnitLayout(self, unit)
 			self:RegisterEvent("UNIT_EXITED_VEHICLE", UpdatePlayerFrame)
 		end
 	end
-	
+
 	--[[ 	Focus & Target Frame		]]
 	if (self.cUnit == "target" or self.cUnit == "focus") then
-		-- Questmob Icon	
+		-- Questmob Icon
 		self.QuestIndicator = self:CreateTexture(nil, "OVERLAY")
 		self.QuestIndicator:SetSize(32, 32)
 		self.QuestIndicator:SetPoint("CENTER", self.Health, "TOPRIGHT", 1, 10)
@@ -889,7 +889,7 @@ local function CreateUnitLayout(self, unit)
 		self.Debuffs = ns.AddDebuffs(self, "TOPLEFT", 20, 4, 6, 1)
 		self.Debuffs:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 1, -3)
 		self.Debuffs.CustomFilter   = ns.CustomAuraFilters.pet
-	
+
 	elseif (self.IsPartyFrame) then
 		self.Debuffs = ns.AddDebuffs(self, "TOPLEFT", 20, 4, 4, 1)
 		self.Debuffs:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", 5, 1)
@@ -922,7 +922,7 @@ end
 function _G.PlayerFrame_ToVehicleArt() end --disable blizzard frame swap
 function _G.PlayerFrame_ToPlayerArt() end
 
-oUF:Factory( function(self)
+oUF:Factory(function(self)
 	playerClass = select(2, UnitClass("player"))
 	config = ns.config
 
@@ -957,7 +957,8 @@ oUF:Factory( function(self)
 	end
 
 	if (config.showParty) then
-		local party = oUF:SpawnHeader("oUF_AbuParty", nil, (config.showPartyInRaid and "custom [@raid4,exists] hide; show") or "custom [group:party,nogroup:raid] show; hide",
+		local party = oUF:SpawnHeader("oUF_AbuParty", nil, (config.showPartyInRaid and "custom [@raid4,exists] hide; show")
+															or "custom [group:party,nogroup:raid] show; hide",
 			"oUF-initialConfigFunction", [[
 				self:SetWidth(105)
 				self:SetHeight(30)
@@ -977,14 +978,14 @@ oUF:Factory( function(self)
 			if (i == 1) then
 				boss[i]:SetPoint("TOPRIGHT", UIParent)
 			else
-				boss[i]:SetPoint("TOPLEFT", boss[(i - 1)], "BOTTOMLEFT", 0, -45)   
+				boss[i]:SetPoint("TOPLEFT", boss[(i - 1)], "BOTTOMLEFT", 0, -45)
 			end
 		end
 
 		ns.CreateUnitAnchor(boss[1], boss[1], boss[5], "DIALOG", "boss1", "boss2", "boss3", "boss4", "boss5")
 	end
 
-	if (config.showArena) then 
+	if (config.showArena) then
 		local arena = {}
 		for i = 1, 5 do --MAX_ARENA_ENEMIES isnt loaded yet
 			arena[i] = self:Spawn("arena"..i, "oUF_AbuArenaFrame"..i)
@@ -1028,5 +1029,5 @@ oUF:Factory( function(self)
 		text:ClearAllPoints()
 		text:SetPoint("CENTER", bar)
 		bar.text = text
-	end	
+	end
 end)

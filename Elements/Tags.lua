@@ -23,7 +23,7 @@ oUF.Tags.Methods["abu:additionalpower"] = function(unit)
 	end
 end
 
-oUF.Tags.Methods["abu:pvptimer"] = function(unit)
+oUF.Tags.Methods["abu:pvptimer"] = function()
 	local pvpTime = (GetPVPTimer() or 0)/1000
 	if (not IsPVPTimerRunning()) or (pvpTime < 1) or (pvpTime > 300) then --999?
 		return ""
@@ -69,7 +69,7 @@ oUF.Tags.Methods["abu:name"] = function(unit, realUnit)
 			color = oUF.colors.class[class]
 		elseif UnitIsEnemy(unit, "player") then
 			color = oUF.colors.reaction[1]
-		else 
+		else
 			color = oUF.colors.reaction[UnitReaction(unit, "player") or 5]
 		end
 	end

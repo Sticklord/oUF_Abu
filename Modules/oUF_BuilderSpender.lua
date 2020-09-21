@@ -18,14 +18,14 @@ local function startFeedbackAnim(self, oldValue, newValue) --copied, only remove
 	if (not self.initialized) then
 		return;
 	end
-	
+
 	oldValue = Clamp(oldValue, 0, self.maxValue);
 	newValue = math.max(newValue, 0);
 
 	if ( newValue > oldValue ) then -- Gaining power
 		self.updatingGain = true;
-		self:SetScript("OnUpdate", BuilderSpender_OnUpdateFeedback);
-	
+		-- self:SetScript("OnUpdate", BuilderSpender_OnUpdateFeedback);
+
 		self.oldValue = oldValue;
 		self.newValue = newValue;
 		self.animGainStartTime = GetTime();
@@ -39,7 +39,7 @@ local function startFeedbackAnim(self, oldValue, newValue) --copied, only remove
 		local texMaxX = oldValue / maxValue;
 
 		local height = self:GetHeight();
-		
+
 		glowTexture:ClearAllPoints();
 		glowTexture:SetPoint("TOPLEFT", leftPosition, 0);
 		glowTexture:SetHeight(height);
@@ -47,7 +47,7 @@ local function startFeedbackAnim(self, oldValue, newValue) --copied, only remove
 		glowTexture:SetTexCoord(texMinX, texMaxX, 0, 1);
 		glowTexture:Show();
 		glowTexture:SetAlpha(0);
-		
+
 		barTexture:ClearAllPoints();
 		barTexture:SetPoint("TOPLEFT", leftPosition, 0);
 		barTexture:SetHeight(height);
@@ -55,9 +55,9 @@ local function startFeedbackAnim(self, oldValue, newValue) --copied, only remove
 		barTexture:SetTexCoord(texMinX, texMaxX, 0, 1);
 		barTexture:Show();
 		barTexture:SetAlpha(1);
-		
+
 		self.updatingLoss = true;
-		self:SetScript("OnUpdate", BuilderSpender_OnUpdateFeedback);
+		-- self:SetScript("OnUpdate", BuilderSpender_OnUpdateFeedback);
 		self.animLossStartTime = GetTime();
 	end
 end
@@ -84,7 +84,7 @@ local Update = function(self, event, unit)
 	end
 
 	if(element.PostUpdate) then
-		return element:PostUpdate(unit, cur, max, min)
+		return element:PostUpdate(unit)
 	end
 end
 
@@ -95,7 +95,7 @@ end
 local Visibility = function(self, event, unit)
 	if (unit and unit ~= self.unit) then return false; end
 	local element = self.BuilderSpender
-	local powerType, powerToken, altR, altG, altB = UnitPowerType(self.unit)
+	local powerType, powerToken = UnitPowerType(self.unit)
 	local info = self.colors.power[powerToken]
 	if (info) then
 		if (element.FeedbackFrame) then
@@ -133,7 +133,7 @@ end
 
 local Enable = function(self, unit)
 	local element = self.BuilderSpender
-	if(unit == "player" and element) then 
+	if(unit == "player" and element) then
 
 		local feedback = element.FeedbackFrame
 		local fullpower = element.FullPowerFrame

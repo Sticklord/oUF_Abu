@@ -1,7 +1,6 @@
 local _, ns = ...
 local select = select
 local tonumber = tonumber
-local gsub = string.gsub
 local format = string.format
 local colors = oUF.colors
 
@@ -44,8 +43,8 @@ end
 
 function ns.MultiCheck(what, ...)
 	for i = 1, select("#", ...) do
-		if (what == select(i, ...)) then 
-			return true 
+		if (what == select(i, ...)) then
+			return true
 		end
 	end
 
@@ -54,10 +53,9 @@ end
 
 -------------------------------------------------------------------------------
 local UnitIsGhost, GetSpellInfo, UnitIsConnected, UnitIsDead, UnitIsDeadOrGhost, UnitIsPlayer, UnitReaction, UnitIsEnemy, UnitSelectionColor =
-	  UnitIsGhost, GetSpellInfo, UnitIsConnected, UnitIsDead, UnitIsDeadOrGhost, UnitIsPlayer, UnitReaction, UnitIsEnemy, UnitSelectionColor
-local UnitPowerType, UnitPower, UnitPowerMax, UnitHasVehicleUI, UnitClass, UnitIsTapDenied, format = 
-	  UnitPowerType, UnitPower, UnitPowerMax, UnitHasVehicleUI, UnitClass, UnitIsTapDenied, format
-
+	UnitIsGhost, GetSpellInfo, UnitIsConnected, UnitIsDead, UnitIsDeadOrGhost, UnitIsPlayer, UnitReaction, UnitIsEnemy, UnitSelectionColor
+local UnitPowerType, UnitPower, UnitPowerMax, UnitClass, UnitIsTapDenied =
+	UnitPowerType, UnitPower, UnitPowerMax, UnitClass, UnitIsTapDenied
 local function getClassColor(unit)
 	if UnitIsPlayer(unit) then
 		local _, class = UnitClass(unit)
@@ -69,7 +67,7 @@ local function getClassColor(unit)
 	else
 		return colors.reaction[UnitReaction(unit, "player") or 5]
 	end
-	return colors.fallback
+	-- return colors.fallback
 end
 
 local function UpdatePortraitColor(self, unit, cur, max)
@@ -90,10 +88,9 @@ local function UpdatePortraitColor(self, unit, cur, max)
 	end
 end
 
-
 local TEXT_PERCENT, TEXT_SHORT, TEXT_LONG, TEXT_MINMAX, TEXT_MAX, TEXT_DEF, TEXT_NONE = 0,1,2,3,4,5,6
 
-local function SetValueText(element, tag, cur, max, color, notMana)
+local function SetValueText(element, tag, cur, max, color)
 	if ( not max or max == 0 ) then max = 100; end -- not sure why this happens
 
 	if (tag == TEXT_PERCENT) and (max < 200) then
@@ -133,7 +130,7 @@ do
 		DEFICIT = {TEXT_DEF, 	TEXT_DEF, 		TEXT_NONE },
 	}
 
-	function ns.PostUpdateHealth(Health, unit, cur, max)	
+	function ns.PostUpdateHealth(Health, unit, cur, max)
 		local absent = not UnitIsConnected(unit) and PLAYER_OFFLINE or UnitIsGhost(unit) and GetSpellInfo(8326) or UnitIsDead(unit) and DEAD
 		local self = Health:GetParent()
 		local uconfig = ns.config[self.cUnit]
@@ -146,7 +143,6 @@ do
 			self.Name.Bg:SetVertexColor(UnitSelectionColor(unit))
 		end
 
-		
 		if absent then
 			Health:SetStatusBarColor(0.5, 0.5, 0.5)
 			if Health.Value then
@@ -160,7 +156,7 @@ do
 			max = UnitHealthMax(unit) or 1
 		end
 
-		local color, _
+		local color
 		if ns.config.TextHealthColorMode == "CLASS" then
 			color = getClassColor(unit)
 		elseif ns.config.TextHealthColorMode == "GRADIENT" then
@@ -168,7 +164,7 @@ do
 		else
 			color = ns.config.TextHealthColor
 		end
-		
+
 		if uconfig.HealthTag == "DISABLE" then
 			Health.Value:SetText(nil)
 		elseif self.isMouseOver then
@@ -191,7 +187,7 @@ local function appendTexture(healthbar, anchorTexture, bar, amount, fromAmount, 
 	end
 
 	local maxValue = healthbar.maxValue
-	local endAmount
+	local endAmount, nextPoint
 	local offset = (fromAmount+amount) * healthbar.sizeWidth / maxValue
 
 	bar:ClearAllPoints()
@@ -246,9 +242,9 @@ local function updateAbsorbBars(healthbar, unit, curHP, maxHP)
 
 	local missingHP = maxHP - curHP
 	if (curHP - healAbsorb + incHealing) > maxHP then
-		incHealing = missingHP + healAbsorb 
+		incHealing = missingHP + healAbsorb
 	end
-	texture, endAmount, nextPoint = appendTexture(healthbar, texture, healthbar.incHealBar, incHealing, endAmount, nextPoint)
+	appendTexture(healthbar, texture, healthbar.incHealBar, incHealing, endAmount, nextPoint)
 
 	local shownAbsorb_Value = math.min(missingHP, totalAbsorb_Value)
 	local overAbsorb_Value = totalAbsorb_Value - missingHP
@@ -274,7 +270,7 @@ function ns.UpdateHealthOverride(self, event, unit)
 	local cur, max = UnitHealth(unit), UnitHealthMax(unit)
 	if (event == "UNIT_HEAL_PREDICTION" or event == "UNIT_ABSORB_AMOUNT_CHANGED" or event == "UNIT_HEAL_ABSORB_AMOUNT_CHANGED") then
 		updateAbsorbBars(self.Health, unit, cur, max)
-		return;
+		return
 	end
 	local disconnected = not UnitIsConnected(unit)
 	self.Health:SetMinMaxValues(0, max)
@@ -320,8 +316,8 @@ do
 		end
 
 		local _, powerToken = UnitPowerType(unit)
-		local color 
-		
+		local color
+
 		if ns.config.TextPowerColorMode == "CLASS" then
 			color = getClassColor(unit)
 		elseif ns.config.TextPowerColorMode == "TYPE" then
@@ -390,13 +386,13 @@ end
 
 do
 	local function toRgb(h, s, l)
-		if (s <= 0) then 
-			return l, l, l 
+		if (s <= 0) then
+			return l, l, l
 		end
 		h, s, l = h * 6, s, l
 		local c = (1 - math.abs(2 * l - 1)) * s
 		local x = (1 - math.abs(h % 2 - 1 )) * c
-		local m, r, g, b = (l - .5 * c), 0,0,0
+		local m, r, g, b = (l - .5 * c)
 		if h < 1 	 then
 			r, g, b = c, x, 0
 		elseif h < 2 then
@@ -481,7 +477,7 @@ function ns.CreateStatusBar(parent, layer, name, AddBackdrop)
 	local bar = CreateFrame("StatusBar", name, parent, BackdropTemplateMixin and "BackdropTemplate")
 	bar:SetStatusBarTexture(ns.config.statusbar, layer)
 	bar.texture = ns.config.statusbar
-	
+
 	if AddBackdrop then
 		bar:SetBackdrop({bgFile = "Interface\\Buttons\\WHITE8x8"})
 		local r,g,b,a = unpack(ns.config.backdropColor)
@@ -536,7 +532,7 @@ function ns.CreateFontStringNumber(parent, size, justify, outline)
 	fs:SetFont(ns.config.fontNumber, (size * ns.config.fontNumberSize), outline or ns.config.fontNumberOutline)
 	fs:SetJustifyH(justify or "CENTER")
 	fs:SetShadowOffset(1, -1)
-	fs.basesize = size 
+	fs.basesize = size
 	if outline and type(outline) == "string" then
 		fs.ignoreOutline = true
 	end
@@ -550,7 +546,7 @@ function ns.CreateFontStringName(parent, size, justify, outline)
 	fs:SetFont(ns.config.fontName, (size * ns.config.fontNameSize), outline or ns.config.fontNameOutline)
 	fs:SetJustifyH(justify or "CENTER")
 	fs:SetShadowOffset(1, -1)
-	fs.basesize = size 
+	fs.basesize = size
 	if outline and type(outline) == "string" then
 		fs.ignoreOutline = true
 	end
@@ -564,7 +560,7 @@ function ns.CreateFontStringBar(parent, size, justify, outline)
 	fs:SetFont(ns.config.fontBar, (size * ns.config.fontBarSize), outline or ns.config.fontBarOutline)
 	fs:SetJustifyH(justify or "CENTER")
 	fs:SetShadowOffset(1, -1)
-	fs.basesize = size 
+	fs.basesize = size
 	if outline and type(outline) == "string" then
 		fs.ignoreOutline = true
 	end
@@ -578,7 +574,7 @@ function ns.CreateFontStringLevel(parent, size, justify, outline)
 	fs:SetFont(ns.config.fontLevel, (size * ns.config.fontLevelSize), outline or ns.config.fontLevelOutline)
 	fs:SetJustifyH(justify or "CENTER")
 	fs:SetShadowOffset(1, -1)
-	fs.basesize = size 
+	fs.basesize = size
 	if outline and type(outline) == "string" then
 		fs.ignoreOutline = true
 	end

@@ -17,7 +17,7 @@ do
 				ns.Print(format(L["AuraAdded"], name, id ))
 				oUFAbu:GetAuraSettings()[db][id] = 0
 			end
-		end 
+		end
 		oUFAbu:UpdateAuraLists()
 	end
 
@@ -167,7 +167,7 @@ do
 	}
 
 	function postUpdateIcon( element, unit, button, index, offset )
-		local name, texture, count, dtype, duration, expirationTime, caster, canStealOrPurge, shouldConsolidate, spellID = UnitAura(unit, index, button.filter)
+		local dtype, duration, expirationTime, _, _, _, spellID = select(3, UnitAura(unit, index, button.filter))
 		button:EnableMouse(not ns.config.clickThrough)
 		button.overlay:Show()
 		button.shadow:Show()
@@ -213,7 +213,7 @@ do
 	end
 end
 
-local function postUpdate(self, unit)
+local function postUpdate(self)
 	self:GetParent().Health:ForceUpdate()
 end
 
@@ -342,7 +342,7 @@ function ns.AddAuras(self, initialAnchor, size, gap, columns, rows)
 	Auras.numBuffs = math.floor(rows*columns/2)
 
 	Auras.gap = true
-	Auras.PostUpdateGapIcon = function(element, unit, icon, visibleBuffs)
+	Auras.PostUpdateGapIcon = function(element, unit, icon)
 		icon.shadow:Hide()
 	end
 

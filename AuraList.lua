@@ -39,7 +39,7 @@ AuraList.Defensive = {
 	48792,	-- Icebound Fortitude
 	498,	-- Divine Protection
 	5277,	-- Evasion
-	61336,	-- Survival Instincts	
+	61336,	-- Survival Instincts
 	74001,	-- Combat Readiness
 	871,	-- Shield Wall
 	45182,	-- Cheating Death
@@ -105,9 +105,9 @@ AuraList.Stun = {
 	65929,	-- Charge Stun
 	6770,	-- Sap
 	853,	-- Hammer of Justice
-	--87195 removed,	-- Paralysis 
-	88625,	-- Holy Word: Chastise	
-	89766,	-- Axe Toss 
+	--87195 removed,	-- Paralysis
+	88625,	-- Holy Word: Chastis
+	89766,	-- Axe Toss
 	91797,	-- Monstrous Blow (Gnaw with DT)
 	163505,	-- Rake
 	22570,	-- Maim
@@ -138,7 +138,7 @@ AuraList.CC = {
 	339,	-- Entangling Roots
 	45334,	-- Wild Charge
 	51514, 	-- Hex
-	5246,	-- Intimidating Shout 
+	5246,	-- Intimidating Shout
 	5484, 	-- Howl of Terror
 	5782,	-- Fear
 	605, 	-- Mind Control

@@ -8,48 +8,48 @@ if not oUF then return; end
 
 local UIFrameFadeIn, UIFrameFadeOut
 do
-	local frameFadeManager = CreateFrame("FRAME");
+	local frameFadeManager = CreateFrame("FRAME")
 	local FADEFRAMES = {}
-	 
 	local function UIFrameFade_OnUpdate(self, elapsed)
-		local index = 1;
-		local frame, fadeInfo;
+		local index = 1
+		local frame, fadeInfo
 		while FADEFRAMES[index] do
-			frame = FADEFRAMES[index];
+			frame = FADEFRAMES[index]
 			fadeInfo = FADEFRAMES[index].fadeInfo;
 			-- Reset the timer if there isn't one, this is just an internal counter
 			if ( not fadeInfo.fadeTimer ) then
-				fadeInfo.fadeTimer = 0;
+				fadeInfo.fadeTimer = 0
 			end
 			fadeInfo.fadeTimer = fadeInfo.fadeTimer + elapsed;
-	 
-			-- If the fadeTimer is less then the desired fade time then set the alpha otherwise hold the fade state, call the finished function, or just finish the fade
+
+			-- If the fadeTimer is less then the desired fade time then set the alpha otherwise hold the fade state,
+			-- call the finished function, or just finish the fade
 			if ( fadeInfo.fadeTimer < fadeInfo.timeToFade ) then
 				if ( fadeInfo.mode == "IN" ) then
-					frame:SetAlpha((fadeInfo.fadeTimer / fadeInfo.timeToFade) * (fadeInfo.endAlpha - fadeInfo.startAlpha) + fadeInfo.startAlpha);
+					frame:SetAlpha((fadeInfo.fadeTimer / fadeInfo.timeToFade) * (fadeInfo.endAlpha - fadeInfo.startAlpha) + fadeInfo.startAlpha)
 				elseif ( fadeInfo.mode == "OUT" ) then
-					frame:SetAlpha(((fadeInfo.timeToFade - fadeInfo.fadeTimer) / fadeInfo.timeToFade) * (fadeInfo.startAlpha - fadeInfo.endAlpha)  + fadeInfo.endAlpha);
+					frame:SetAlpha(((fadeInfo.timeToFade - fadeInfo.fadeTimer) / fadeInfo.timeToFade) * (fadeInfo.startAlpha - fadeInfo.endAlpha)  + fadeInfo.endAlpha)
 				end
 			else
-				frame:SetAlpha(fadeInfo.endAlpha);
+				frame:SetAlpha(fadeInfo.endAlpha)
 				-- If there is a fadeHoldTime then wait until its passed to continue on
 				if ( fadeInfo.fadeHoldTime and fadeInfo.fadeHoldTime > 0  ) then
-					fadeInfo.fadeHoldTime = fadeInfo.fadeHoldTime - elapsed;
+					fadeInfo.fadeHoldTime = fadeInfo.fadeHoldTime - elapsed
 				else
 					-- Complete the fade and call the finished function if there is one
-					tDeleteItem(FADEFRAMES, frame);
+					tDeleteItem(FADEFRAMES, frame)
 					if ( fadeInfo.finishedFunc ) then
-						fadeInfo.finishedFunc(fadeInfo.finishedArg1, fadeInfo.finishedArg2, fadeInfo.finishedArg3, fadeInfo.finishedArg4);
-						fadeInfo.finishedFunc = nil;
+						fadeInfo.finishedFunc(fadeInfo.finishedArg1, fadeInfo.finishedArg2, fadeInfo.finishedArg3, fadeInfo.finishedArg4)
+						fadeInfo.finishedFunc = nil
 					end
 				end
 			end
-	 
-			index = index + 1;
+
+			index = index + 1
 		end
-	 
+
 		if ( #FADEFRAMES == 0 ) then
-			self:SetScript("OnUpdate", nil);
+			self:SetScript("OnUpdate", nil)
 		end
 	end
 
@@ -61,40 +61,40 @@ do
 			fadeInfo.startAlpha = alpha
 		end
 
-	 	fadeInfo.fadeTimer = 0;
-		frame.fadeInfo = fadeInfo;
-	 
-		local index = 1;
+		fadeInfo.fadeTimer = 0;
+		frame.fadeInfo = fadeInfo
+
+		local index = 1
 		while FADEFRAMES[index] do
 			-- If frame is already set to fade then return
 			if ( FADEFRAMES[index] == frame ) then
-				return;
+				return
 			end
-			index = index + 1;
+			index = index + 1
 		end
 
 		tinsert(FADEFRAMES, frame);
-		frameFadeManager:SetScript("OnUpdate", UIFrameFade_OnUpdate);
+		frameFadeManager:SetScript("OnUpdate", UIFrameFade_OnUpdate)
 	end
-	 
+
 	-- Convenience function to do a simple fade in
 	function UIFrameFadeIn(frame, timeToFade, startAlpha, endAlpha)
 		local fadeInfo = {};
-		fadeInfo.mode = "IN";
-		fadeInfo.timeToFade = timeToFade or 0.2;
-		fadeInfo.startAlpha = startAlpha or 0;
-		fadeInfo.endAlpha = endAlpha or 1;
-		UIFrameFade(frame, fadeInfo);
+		fadeInfo.mode = "IN"
+		fadeInfo.timeToFade = timeToFade or 0.2
+		fadeInfo.startAlpha = startAlpha or 0
+		fadeInfo.endAlpha = endAlpha or 1
+		UIFrameFade(frame, fadeInfo)
 	end
-	 
+
 	-- Convenience function to do a simple fade out
 	function UIFrameFadeOut(frame, timeToFade, startAlpha, endAlpha)
 		local fadeInfo = {};
-		fadeInfo.mode = "OUT";
-		fadeInfo.timeToFade = timeToFade or 0.2;
-		fadeInfo.startAlpha = startAlpha or 1;
-		fadeInfo.endAlpha = endAlpha or 0;
-		UIFrameFade(frame, fadeInfo);
+		fadeInfo.mode = "OUT"
+		fadeInfo.timeToFade = timeToFade or 0.2
+		fadeInfo.startAlpha = startAlpha or 1
+		fadeInfo.endAlpha = endAlpha or 0
+		UIFrameFade(frame, fadeInfo)
 	end
 end
 
@@ -102,7 +102,7 @@ local enabledFrames = {}
 local mouseOver = false
 local is_showing
 
-local function Update(self, event, arg1, ...)
+local function Update(self, event)
 	local show
 	local force = event == "OnShow"
 
@@ -143,7 +143,7 @@ local eventFrame = CreateFrame("FRAME")
 eventFrame:SetScript("OnEvent", Update)
 
 local function Enable(self)
-	if (not self.CombatFade) or enabledFrames[self] then return; end
+	if (not self.CombatFade) or enabledFrames[self] then return end
 	enabledFrames[self] = true
 	self.fadeInfo = {mode = "IN"}
 	Update(self, "FORCEUPDATE")
@@ -183,7 +183,7 @@ local function Disable(self)
 	UIFrameFadeIn(self)
 
 	local numframes = 0
-	for k,v in pairs(enabledFrames) do
+	for _ in pairs(enabledFrames) do
 		numframes = numframes + 1
 	end
 

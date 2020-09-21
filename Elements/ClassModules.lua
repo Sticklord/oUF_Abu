@@ -26,7 +26,7 @@ local function updateTotemPosition()
 		local form  = GetShapeshiftFormID();
 		TotemFrame:SetPoint("TOP", oUF_AbuPlayer, "BOTTOM", 27, -10)
 		if not ns.Classic then
-			if ( ( GetSpecialization() == SPEC_SHAMAN_RESTORATION ) or ( form == 16 ) ) then -- wolf form 
+			if ( ( GetSpecialization() == SPEC_SHAMAN_RESTORATION ) or ( form == 16 ) ) then -- wolf form
 				TotemFrame:SetPoint("TOP", oUF_AbuPlayer, "BOTTOM", 27, 2)
 			end
 		end
@@ -60,7 +60,7 @@ function ns.classModule.Totems(self, config, uconfig)
 	updateTotemPosition()
 end
 
-function ns.classModule.additionalPowerBar(self, config, uconfig)
+function ns.classModule.additionalPowerBar(self)
 	self.AdditionalPower = ns.CreateOutsideBar(self, false, 0, 0, 1)
 	self.AdditionalPower.colorPower = true
 
@@ -70,21 +70,21 @@ function ns.classModule.additionalPowerBar(self, config, uconfig)
 	self:Tag(self.AdditionalPower.Value, "[abu:additionalpower]")
 end
 
-function ns.classModule.DEATHKNIGHT(self, config, uconfig)
+function ns.classModule.DEATHKNIGHT(self, config)
 	if (config.DEATHKNIGHT.showRunes) then
 		RuneFrame:SetParent(self)
 		RuneFrame:ClearAllPoints()
 		RuneFrame:SetPoint("TOP", self, "BOTTOM", 33, -1)
-		if (ns.config.playerStyle == "normal") then 
+		if (ns.config.playerStyle == "normal") then
 			RuneFrame:SetFrameStrata("LOW");
 		end
-		for k, v in next, RuneFrame.Runes do
+		for _, v in next, RuneFrame.Runes do
 			ns.PaintFrames(v.Rune, 0.3)
 		end
 	end
 end
 
-function ns.classModule.MAGE(self, config, uconfig)
+function ns.classModule.MAGE(self, config)
 	if (config.MAGE.showArcaneStacks) then
 		MageArcaneChargesFrame:SetParent(self)
 		MageArcaneChargesFrame:ClearAllPoints()
@@ -136,21 +136,21 @@ function ns.classModule.PALADIN(self, config, uconfig)
 	end
 end
 
-function ns.classModule.PRIEST(self, config, uconfig)
+function ns.classModule.PRIEST(self, config)
 	if (config.PRIEST.showInsanity) then
-		InsanityBarFrame:SetParent(self) 
+		InsanityBarFrame:SetParent(self)
 		InsanityBarFrame:ClearAllPoints()
 		InsanityBarFrame:SetPoint("BOTTOMRIGHT", self, "TOPLEFT", 52, -50)
 		return InsanityBarFrame
 	end
 end
 
-function ns.classModule.WARLOCK(self, config, uconfig)
+function ns.classModule.WARLOCK(self, config)
 	if (config.WARLOCK.showShards) then
 		WarlockPowerFrame:SetParent(self)
 		WarlockPowerFrame:ClearAllPoints()
 		WarlockPowerFrame:SetPoint("TOP", self, "BOTTOM", 29, -2)
-		if (ns.config.playerStyle == "normal") then 
+		if (ns.config.playerStyle == "normal") then
 			WarlockPowerFrame:SetFrameStrata("LOW");
 		end
 		local shard = WarlockPowerFrame.Shards[#WarlockPowerFrame.Shards]
@@ -164,11 +164,11 @@ function ns.classModule.WARLOCK(self, config, uconfig)
 	end
 end
 
-function ns.classModule.addAuraBar(self, config, uconfig)
+function ns.classModule.addAuraBar(self, config)
 	local Aurabar = ns.CreateOutsideBar(self, true, 1, 0, 0)
 	Aurabar:SetFrameLevel(1)
 
-	Aurabar.Visibility = function(self, event, unit)
+	Aurabar.Visibility = function(self)
 		local bar = self.Aurabar
 		if ns.Classic then return false end
 		local index = GetSpecialization()

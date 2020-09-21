@@ -11,7 +11,7 @@ local L = ns.L
 --		Functions for showing phony unitframes
 
 local enableDummies
-do 
+do
 	local function toggleUnitFrame(obj, show)
 		if show then
 			obj.old_unit = obj.unit
@@ -189,8 +189,6 @@ local function CreateAnchor(frame, name, key1, key2, tlP, brP, strata)
 			self:StopMovingOrSizing()
 			anchor_Save(self)
 			self:Update()
-			
-			
 		end
 		self.isMoving = nil
 	end)
@@ -199,7 +197,6 @@ local function CreateAnchor(frame, name, key1, key2, tlP, brP, strata)
 		local obj = self.object
 		obj:ClearAllPoints()
 		obj:SetPoint(anchor_GetSaved(self))
-		
 		self:ClearAllPoints()
 		self:SetPoint("TOPLEFT", self.topleftPoint)
 		self:SetPoint("BOTTOMRIGHT", self.botrightPoint)
@@ -267,20 +264,16 @@ end
 
 local LOCKED = true
 function oUFAbu:ToggleAllAnchors(force_Lock)
-	
 	if LOCKED and (not force_Lock) then
 		if InCombatLockdown() then return self:Print(L.Anchor_InCombat); end
 		self:RegisterEvent("PLAYER_REGEN_DISABLED")
 		self:Print(L.Anchors_Unlocked)
-
 		for i = 1, #AnchorFrames do
 			AnchorFrames[i]:Show()
 		end
-
 	elseif (not LOCKED) then
 		self:UnregisterEvent("PLAYER_REGEN_DISABLED")
-		self:Print(L.Anchors_Locked)	
-
+		self:Print(L.Anchors_Locked)
 		for i = 1, #AnchorFrames do
 			AnchorFrames[i]:Hide()
 		end

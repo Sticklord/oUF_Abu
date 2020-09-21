@@ -66,7 +66,7 @@ function oUFAbu:UpdateAuraLists()
 	for aura, filter in pairs(oUFAbu:GetAuraSettings()['boss']) do
 		bossFilter[aura] = filter
 	end
-	
+
 	for _, obj in pairs(oUF.objects) do
 		if obj.Auras then
 			obj.Auras:ForceUpdate()
@@ -105,17 +105,18 @@ local UnitCanAttack, UnitPlayerControlled = UnitCanAttack, UnitPlayerControlled
 local isPlayer = { player = true, pet = true, vehicle = true }
 
 local filters = {
-	[0] = function(self, unit, caster) return true end,--
-	[1] = function(self, unit, caster) return isPlayer[caster] end,--
-	[2] = function(self, unit, caster) return UnitCanAttack("player", unit) end, 
-	[3] = function(self, unit, caster) return false end,						
+	[0] = function(self) return true end,
+	[1] = function(self, unit, caster) return isPlayer[caster] end,
+	[2] = function(self, unit) return UnitCanAttack("player", unit) end,
+	[3] = function(self) return false end,
 }
 
 ns.CustomAuraFilters = {
-	pet = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, value1, value2, value3)
-		return (caster and isPlayer[caster]) and (not genFilter[spellId] == 3)
+	pet = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID)
+		return (caster and isPlayer[caster]) and (not genFilter[spellID] == 3)
 	end,
-	target = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, value1, value2, value3)
+	target = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal,
+						spellID, canApplyAura, isBossDebuff, casterIsPlayer, nameplateShowAll)
 		local v = genFilter[spellID]
 		if v and filters[v] then 					-- [[ In Filters ]]--
 			return filters[v](self, unit, caster)
@@ -128,10 +129,11 @@ ns.CustomAuraFilters = {
 			return true
 		else 										-- [[ 	NPC 	 ]]--
 			-- Always show BUFFS, Show boss debuffs, aura cast by the unit, or auras cast by the player's vehicle.
-			return (iconFrame.filter == "HELPFUL") or (isBossDebuff) or nameplateShowAll or (isPlayer[caster]) or (caster == unit) 
+			return (iconFrame.filter == "HELPFUL") or (isBossDebuff) or nameplateShowAll or (isPlayer[caster]) or (caster == unit)
 		end
 	end,
-	party = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, value1, value2, value3)
+	party = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID,
+						canApplyAura, isBossDebuff, casterIsPlayer, nameplateShowAll)
 		local v = genFilter[spellID]
 		if v and filters[v] then
 			return filters[v](self, unit, caster)
@@ -141,10 +143,11 @@ ns.CustomAuraFilters = {
 			return true
 		end
 	end,
-	arena = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, value1, value2, value3)
+	arena = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID)
 		return arenaFilter[spellID]
 	end,
-	boss = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, value1, value2, value3)
+	boss = function(self, unit, iconFrame, name, texture, count, dispelType, duration, expiration, caster, isStealable, nameplateShowPersonal, spellID,
+						canApplyAura, isBossDebuff)
 		local v = bossFilter[spellID]
 		if v == 1 then
 			return isPlayer[caster]

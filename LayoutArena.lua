@@ -2,7 +2,7 @@ local _, ns = ...
 
 local textPath = 'Interface\\AddOns\\oUF_Abu\\Media\\Frames\\'
 
-local function postUpdateArenaPreparation(self, event)
+local function postUpdateArenaPreparation(self)
 	local specID = GetArenaOpponentSpec(tonumber(self.id))
 	if specID and specID > 0 then
 		local _, spec, _, icon, _, class = GetSpecializationInfoByID(specID)
@@ -27,7 +27,7 @@ local function updatePortrait(self, event, unit)
 	end
 end
 
-function ns.createArenaLayout(self, unit)
+function ns.createArenaLayout(self)
 	local config = ns.config
 	local uconfig = config[self.cUnit]
 
@@ -68,7 +68,7 @@ function ns.createArenaLayout(self, unit)
 	self.Health.colorClass = config.healthcolormode == 'CLASS'
 	self.Health.colorReaction = config.healthcolormode == 'CLASS'
 	self.Health.colorSmooth = config.healthcolormode == 'NORMAL'
-	
+
 	self.Health.Smooth = true
 	self.Health.PostUpdate = ns.PostUpdateHealth
 	table.insert(self.mouseovers, self.Health)
@@ -79,7 +79,7 @@ function ns.createArenaLayout(self, unit)
 	self.Power.useAtlas = config.powerUseAtlas
 
 	self.Power.Smooth = true
-	self.Power.PostUpdate = ns.PostUpdatePower	
+	self.Power.PostUpdate = ns.PostUpdatePower
 	table.insert(self.mouseovers, self.Power)
 
 	-- name

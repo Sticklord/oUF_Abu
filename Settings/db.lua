@@ -144,12 +144,12 @@ ns.defaultConfig = {
 	absorbtexture = "Interface\\AddOns\\oUF_Abu\\Media\\Texture\\absorbTexture",
 	absorbspark = "Interface\\AddOns\\oUF_Abu\\Media\\Texture\\absorbSpark",
 
- 	player = {
- 		style = "fat",
+	player = {
+		style = "fat",
 		scale = 1.2,
 		HealthTag = "NUMERIC",
 		PowerTag = "PERCENT",
-		cbshow = true, 
+		cbshow = true,
 		cbwidth = 200,
 		cbheight = 18,
 		cbicon = "NONE",
@@ -159,11 +159,11 @@ ns.defaultConfig = {
 	},
 
 	pet = {
- 		style = "fat",
+		style = "fat",
 		scale = 1.2,
 		HealthTag = "MINIMAL",
 		PowerTag = "DISABLE",
-		cbshow = true, 
+		cbshow = true,
 		cbwidth = 200,
 		cbheight = 18,
 		cbicon = "NONE",
@@ -173,13 +173,13 @@ ns.defaultConfig = {
 	},
 
 	target = {
- 		style = "fat",
+		style = "fat",
 		scale = 1.2,
 		HealthTag = "BOTH",
 		PowerTag = "PERCENT",
 		buffPos = "LEFT",
 		debuffPos = "BOTTOM",
-		cbshow = true, 
+		cbshow = true,
 		cbwidth = 200,
 		cbheight = 18,
 		cbicon = "NONE",
@@ -187,41 +187,41 @@ ns.defaultConfig = {
 		cbposition = "BOTTOM/0/350",
 		cbscale = 1,
 	},
-	
+
 	targettarget = {
 		enable = true,
- 		style = "fat",
+		style = "fat",
 		scale = 1.2,
 		enableAura = false,
 		HealthTag = "DISABLE",
-   },
-	
+	},
+
 	focus = {
- 		style = "fat",
+		style = "fat",
 		scale = 1.2,
 		HealthTag = "BOTH",
 		PowerTag = "PERCENT",
 		buffPos = "NONE",
 		debuffPos = "BOTTOM",
 		position = "LEFT/300/80",
-		cbshow = true, 
+		cbshow = true,
 		cbwidth = 180,
 		cbheight = 20,
 		cbicon = "NONE",
 		cbposition = "LEFT/300/125",
 		cbscale = 1,
 	},
-	
+
 	focustarget = {
 		enable = true,
- 		style = "fat",
+		style = "fat",
 		scale = 1.2,
 		enableAura = false,
 		HealthTag = "DISABLE",
 	},
-	
+
 	party = {
- 		style = "fat",
+		style = "fat",
 		scale = 1.1,
 		HealthTag = "MINIMAL",
 		PowerTag = "DISABLE",
@@ -246,7 +246,7 @@ ns.defaultConfig = {
 		HealthTag = "BOTH",
 		PowerTag = "PERCENT",
 		cboffset = {0, 0},
-		cbshow = true, 
+		cbshow = true,
 		cbwidth = 150,
 		cbheight = 22,
 		cbicon = "NONE",

@@ -30,10 +30,10 @@ end
 local function SetBorderTexture(self, texture)
 	local b = self.borderTextures
 	if b then
-		if texture == "white" then 
+		if texture == "white" then
 			texture = ns.config.textureBorderWhite
-		elseif texture == "default" then 
-			texture = ns.config.textureBorder 
+		elseif texture == "default" then
+			texture = ns.config.textureBorder
 		end
 		for _, tex in pairs(b) do
 			tex:SetTexture(texture)
@@ -46,12 +46,12 @@ local function SetBorderSize(self, size)
 	local s = self.borderShadow
 	if b then
 		for _, tex in pairs(b) do
-			tex:SetSize(size, size) 
+			tex:SetSize(size, size)
 		end
 	end
 	if s then
 		for _, tex in pairs(s) do
-			tex:SetSize(size, size) 
+			tex:SetSize(size, size)
 		end
 	end
 end
@@ -108,7 +108,7 @@ function ns.CreateBorder(self, size, padding, layer)
 		local b = {}
 		local s = {}
 
-		for i = 1, 8 do 
+		for i = 1, 8 do
 			local t = self:CreateTexture(nil, layer or "OVERLAY")
 			t:SetParent(self)
 			t:SetTexture(ns.config.textureBorder)
@@ -116,7 +116,7 @@ function ns.CreateBorder(self, size, padding, layer)
 			b[sections[i]] = t
 		end
 
-		for i = 1, 8 do 
+		for i = 1, 8 do
 			local t = self:CreateTexture(nil, layer or "BORDER")
 			t:SetParent(self)
 			t:SetTexture(ns.config.textureBorderShadow)
@@ -165,16 +165,14 @@ function ns.CreateOutsideBar(parent, onTop, r, g, b)
 	bar:SetStatusBarColor(r or 1, g or 0, b or 0)
 	--bar:SetFrameLevel(10)
 
-	local point, anchor, point2, x, y, step
+	local point, anchor, point2, x, y
 	if onTop then
 		point, anchor, point2, x, y = "BOTTOM", parent.Health, "TOP", 0, 3
-		step = 2
 	else
 		point, anchor, point2, x, y = "TOP", parent.Power, "BOTTOM", 0, -2
-		step = -2
 	end
 	bar:SetPoint(point, anchor, point2, x, y)
-	
+
 	local tex = bar:CreateTexture(nil, "ARTWORK")
 	tex:SetSize(104, 28)
 	if onTop then
@@ -205,7 +203,7 @@ function ns.CreateOutsideBar(parent, onTop, r, g, b)
 	--  [[ ANIMATION OUT]]
 	local animation_out = bar:CreateAnimationGroup()
 	animation_out:SetScript("OnFinished", function()
-		bar:SetAlpha(0) 
+		bar:SetAlpha(0)
 	end)
 	local out_alpha = animation_out:CreateAnimation("Alpha")
 	out_alpha:SetDuration(0.2)

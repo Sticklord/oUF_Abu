@@ -13,7 +13,7 @@ local ignorePetSpells = {
 ------------------------------------------------------------------
 local CastingBarFrameTicksSet
 do
-	local GetSpellInfo, GetCombatRatingBonus = GetSpellInfo, GetCombatRatingBonus
+	local GetCombatRatingBonus = GetCombatRatingBonus
 	local _, class = UnitClass("player")
 
 	-- Negative means not modified by haste
@@ -81,7 +81,7 @@ do
 					tickDuration = (castTime / 2500) * baseTickDuration
 				else
 					tickDuration = -baseTickDuration
-				end                
+				end
 			end
 			if (tickDuration) then
 				local width = Castbar:GetWidth()
@@ -153,14 +153,14 @@ function ns.CreateCastbars(self)
 	Castbar.Background:SetAllPoints(Castbar)
 
 	if (self.cUnit == "player") then
-		local SafeZone = Castbar:CreateTexture(nil, "BORDER") 
+		local SafeZone = Castbar:CreateTexture(nil, "BORDER")
 		SafeZone:SetTexture(ns.config.statusbar)
 		SafeZone:SetVertexColor(unpack(ns.config.castbarSafezoneColor))
 		table.insert(ns.statusbars, SafeZone)
 		Castbar.SafeZone = SafeZone
 		Castbar.Ticks = ns.config.castbarticks
 	end
-	
+
 	local Spark = Castbar:CreateTexture(nil, "ARTWORK", nil, 1)
 	Spark:SetSize(15, (uconfig.cbheight * 2))
 	Spark:SetBlendMode("ADD")
@@ -218,19 +218,19 @@ function ns.PostCastStart(Castbar, unit, castID, spellID)
 	end
 end
 
-function ns.PostCastFailed(Castbar, unit, castID, spellID)
+function ns.PostCastFailed(Castbar)
 	if (Castbar.Text) then
-		Castbar.Text:SetText(FAILED) 
+		Castbar.Text:SetText(FAILED)
 	end
 	Castbar:SetStatusBarColor(1, 0, 0) -- Red
-	if (Castbar.max) then 
+	if (Castbar.max) then
 		Castbar:SetValue(Castbar.max)
 	end
 end
 
-function ns.PostCastInterrupted(Castbar, unit, castID, spellID)
+function ns.PostCastInterrupted(Castbar)
 	if (Castbar.Text) then
-		Castbar.Text:SetText(INTERRUPTED) 
+		Castbar.Text:SetText(INTERRUPTED)
 	end
 	Castbar:SetStatusBarColor(1, 0, 0)
 	if (Castbar.max) then -- Some spells got trough without castbar
@@ -238,7 +238,7 @@ function ns.PostCastInterrupted(Castbar, unit, castID, spellID)
 	end
 end
 
-function ns.PostStop(Castbar, unit, castID, spellID)
+function ns.PostStop(Castbar)
 	--Castbar:SetValue(Castbar.max)
 	if (Castbar.Ticks) then
 		CastingBarFrameTicksSet(Castbar)

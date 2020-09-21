@@ -73,13 +73,13 @@ function oUFAbu:ADDON_LOADED(event, addon)
 			SharedMedia:Register("statusbar", "Hal G", 		[[Interface\AddOns\oUF_Abu\Media\Texture\statusbarHalH.tga]])
 			SharedMedia:Register("statusbar", "Hal M", 		[[Interface\AddOns\oUF_Abu\Media\Texture\statusbarHalM.tga]])
 		end
-		
+
 		self:SetupSettings()
 
 		-- Focus Key
 		if (ns.config.focBut ~= "NONE") then
 			--Blizzard raid frame
-			hooksecurefunc("CompactUnitFrame_SetUpFrame", function(frame, ...)
+			hooksecurefunc("CompactUnitFrame_SetUpFrame", function(frame)
 				if ((UnitAffectingCombat("player") or UnitAffectingCombat("pet"))) then return; end
 				frame:SetAttribute(ns.config.focMod.."type"..ns.config.focBut, "focus")
 			end)
@@ -87,7 +87,7 @@ function oUFAbu:ADDON_LOADED(event, addon)
 			local foc = CreateFrame("CheckButton", "Focuser", UIParent, "SecureActionButtonTemplate")
 			foc:SetAttribute("type1", "macro")
 			foc:SetAttribute("macrotext", "/focus mouseover")
-			SetOverrideBindingClick(Focuser, true, ns.config.focMod.."BUTTON"..ns.config.focBut, "Focuser")
+			SetOverrideBindingClick(_G.Focuser, true, ns.config.focMod.."BUTTON"..ns.config.focBut, "Focuser")
 		end
 
 		-- Border Texture
@@ -96,8 +96,8 @@ function oUFAbu:ADDON_LOADED(event, addon)
 			prefix = ""
 		elseif(ns.config.borderType == "abu") then
 			prefix = "2"
-		end	
-		ns.config.textureBorder = "Interface\\AddOns\\oUF_Abu\\Media\\Border\\"..prefix.."borderNormal" 
+		end
+		ns.config.textureBorder = "Interface\\AddOns\\oUF_Abu\\Media\\Border\\"..prefix.."borderNormal"
 		ns.config.textureBorderWhite = "Interface\\AddOns\\oUF_Abu\\Media\\Border\\"..prefix.."borderWhite"
 		ns.config.textureBorderShadow = "Interface\\AddOns\\oUF_Abu\\Media\\Border\\"..prefix.."borderShadow"
 
@@ -138,18 +138,18 @@ local function PlayTargetSounds(unit)
 	end
 end
 
-function oUFAbu:PLAYER_TARGET_CHANGED(self, event, ...)
+function oUFAbu:PLAYER_TARGET_CHANGED()
 	CloseDropDownMenus()
 	PlayTargetSounds("target")
 end
 
-function oUFAbu:PLAYER_FOCUS_CHANGED(self, event, ...)
+function oUFAbu:PLAYER_FOCUS_CHANGED()
 	PlayTargetSounds("focus")
 end
 
 ----------------------------------------------------------------------
 --	Skin the blizzard Countdown Timers
-function oUFAbu:START_TIMER(event)
+function oUFAbu:START_TIMER()
 	for _, b in pairs(TimerTracker.timerList) do
 		local bar = b["bar"]
 		if (not bar.borderTextures) then
@@ -188,9 +188,9 @@ function oUFAbu:START_TIMER(event)
 end
 ----------------------[[	View Auras      ]]-------------------------
 function oUFAbu:MODIFIER_STATE_CHANGED(event, key, state)
-	if 	
+	if
 		( IsControlKeyDown() and (key == "LALT" or key == "RALT")) or
-		( IsAltKeyDown() and (key == "LCTRL" or key == "RCTRL")) 
+		( IsAltKeyDown() and (key == "LCTRL" or key == "RCTRL"))
 	then
 		local a, b
 		if state == 1 then
@@ -228,7 +228,7 @@ function oUFAbu:SetupOptions()
 	auras.name = ns.L.AuraFilters
 	auras.parent = options.name
 
-	options:SetScript("OnShow", function(self)
+	options:SetScript("OnShow", function()
 		oUFAbu:LoadOptions()
 		options:SetScript("OnShow", nil)
 	end)

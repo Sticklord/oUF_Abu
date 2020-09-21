@@ -81,13 +81,13 @@ end
 
 function oUFAbu:SetProfile(id)
 	if oUFAbuSettings[id] then
-		local oldID = self:GetProfileID() 
+		local oldID = self:GetProfileID()
 		if oldID ~= id then	-- Clean the old profile
 			oUFAbuSettings[oldID] = cleanDB(oUFAbuSettings[oldID], ns.defaultConfig)
 		end
 
 		oUFAbuProfile["profile"] = id
-		
+
 		oUFAbuSettings[id] = initDB(oUFAbuSettings[id], ns.defaultConfig)
 		ns.config = oUFAbuSettings[id]
 		return true
@@ -180,6 +180,6 @@ function oUFAbu:SetupSettings()
 end
 
 -- [[ Cleaner 	]] --
-function oUFAbu:PLAYER_LOGOUT(event)
+function oUFAbu:PLAYER_LOGOUT()
 	oUFAbuSettings[self:GetProfileID()] = cleanDB(oUFAbuSettings[self:GetProfileID()], ns.defaultConfig)
 end

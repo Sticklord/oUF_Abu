@@ -1,5 +1,5 @@
 --[==================================[
-	
+
 	Widget
 
 	AuraOrbs - An array consisting of x UI widgets.
@@ -44,12 +44,13 @@ assert(oUF, "oUF_AuraOrbs could not find oUF")
 local Update = function(self, event, unit)
 	if (unit ~= self.unit) then return end
 	local orbs = self.AuraOrbs
+	local stack
 
 	for i = 1, 40 do
-		local _, _, _, count, _, _, _, _, _, _, spellId = UnitAura(unit, i, bar.filter)
+		local _, _, _, count, _, _, _, _, _, _, spellId = UnitAura(unit, i, orbs.filter)
 		if not spellId then
 			break
-		elseif spellId == bar.spellID then
+		elseif spellId == orbs.spellID then
 			stack = count or 0
 			break
 		end
@@ -57,14 +58,14 @@ local Update = function(self, event, unit)
 
 	if stack == orbs.lastNumCount then return; end
 	orbs.lastNumStacks = stack;
-	
+
 	for i = 1, orbs.maxStacks do
 		local orb = orbs[i]
 		if i > stack then
 			if (orb.active) then
-				(orb.HideOrb or orb.Hide)(orb) 
+				(orb.HideOrb or orb.Hide)(orb)
 				orb.active = false
-			end 
+			end
 		elseif (not orb.active) then
 			(orb.ShowOrb or orb.Show)(orb)
 			orb.active = true

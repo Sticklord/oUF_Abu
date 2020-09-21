@@ -1,16 +1,14 @@
 local _, ns = ...
 local oUF = ns.oUF or oUF
 
-local PortraitTimerDB = { }
+local PortraitTimerDB = {}
 
-
-local 	GetTime, GetSpellInfo, UnitAura = 
-		GetTime, GetSpellInfo, UnitAura
+local GetTime = GetTime
 local floor, fmod = floor, math.fmod
 local day, hour, minute = 86400, 3600, 60
 
 do
-	local function add(list, filter)
+	local function add(list)
 		for i = 1, #list do
 			PortraitTimerDB[list[i]] = true
 		end
@@ -46,8 +44,8 @@ end
 local function AuraTimer(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 
-	if (self.elapsed < 0.1) then 
-		return 
+	if (self.elapsed < 0.1) then
+		return
 	end
 
 	self.elapsed = 0
@@ -64,10 +62,10 @@ local function AuraTimer(self, elapsed)
 	end
 end
 
-local Update = function(self, event, unit)
-	if (self.unit ~= unit) then 
-		return 
-	end 
+local Update = function(self, _, unit)
+	if (self.unit ~= unit) then
+		return
+	end
 
 	local pt = self.PortraitTimer
 	local UnitDebuff, index = UnitDebuff, 0
@@ -96,7 +94,7 @@ local Update = function(self, event, unit)
 
 				return
 			end
-		else 
+		else
 			if UnitDebuff then
 				UnitDebuff = nil
 				index = 0
