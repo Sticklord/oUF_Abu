@@ -103,9 +103,11 @@ function ns.createArenaLayout(self)
 	self.PortraitTimer.Remaining:SetTextColor(1, 1, 1)
 
 	--Auras
-	self.Buffs = ns.AddBuffs(self, 'TOPLEFT', 28, 5, 6, 1)
-	self.Buffs:SetPoint('TOPLEFT', self.Power, 'BOTTOMLEFT', 0, -7)
-	self.Buffs.CustomFilter   = ns.CustomAuraFilters.arena
+	if (uconfig.enableBuff) then
+		self.Buffs = ns.AddBuffs(self, 'TOPLEFT', 28, 5, 6, 1)
+		self.Buffs:SetPoint('TOPLEFT', self.Power, 'BOTTOMLEFT', 0, -7)
+		self.Buffs.CustomFilter = ns.CustomAuraFilters.arena
+	end
 
 	--Castbars
 	if config.castbars and uconfig.cbshow then

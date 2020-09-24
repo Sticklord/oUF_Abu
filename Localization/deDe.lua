@@ -198,6 +198,8 @@ L.Scale = "Skalierung"
 L.Style = "Stil"
 L.EnableAuras = "Auren aktivieren"
 L.EnableAuraTip = "Auren für diese Einheit aktivieren"
+L.EnableBuff = "Buffs aktivieren"
+L.EnableDebuff = "Debuffs aktivieren"
 L.BuffPos = "Stärkungszauberpostion"
 L.DebuffPos = "Schwächungszauberpostion"
 

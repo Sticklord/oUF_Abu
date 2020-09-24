@@ -860,19 +860,27 @@ local function CreateUnitLayout(self, unit)
 			return size, gap, columns, rows, initialAnchor, relAnchor, offX, offY
 		end
 
-		if (uconfig.buffPos == uconfig.debuffPos) and (uconfig.debuffPos ~= "NONE") then
+		if (uconfig.buffPos == "NONE") then
+			uconfig.buffPos = "TOP"
+		end
+
+		if (uconfig.debuffPos == "NONE") then
+			uconfig.debuffPos = "BOTTOM"
+		end
+
+		if (uconfig.buffPos == uconfig.debuffPos) and (not uconfig.enableDebuff) then
 			local size, gap, columns, rows, initialAnchor, relAnchor, offX, offY = GetAuraData(uconfig.debuffPos)
 			self.Auras = ns.AddAuras(self, initialAnchor, size, gap, columns, rows)
 			self.Auras:SetPoint(initialAnchor, self, relAnchor, offX, offY)
 			self.Auras.CustomFilter = ns.CustomAuraFilters.target
 		else
-			if (uconfig.buffPos ~= "NONE") then
+			if (uconfig.enableBuff) then
 				local size, gap, columns, rows, initialAnchor, relAnchor, offX, offY = GetAuraData(uconfig.buffPos)
 				self.Buffs = ns.AddBuffs(self, initialAnchor, size, gap, columns, rows)
 				self.Buffs:SetPoint(initialAnchor, self, relAnchor, offX, offY)
 				self.Buffs.CustomFilter = ns.CustomAuraFilters.target
 			end
-			if (uconfig.debuffPos ~= "NONE") then
+			if (uconfig.enableDebuff) then
 				local size, gap, columns, rows, initialAnchor, relAnchor, offX, offY = GetAuraData(uconfig.debuffPos)
 				self.Debuffs = ns.AddDebuffs(self, initialAnchor, size, gap, columns, rows)
 				self.Debuffs:SetPoint(initialAnchor, self, relAnchor, offX, offY)
@@ -880,32 +888,40 @@ local function CreateUnitLayout(self, unit)
 			end
 		end
 
-	elseif (self.IsTargetFrame and uconfig.enableAura) then
+	elseif (self.IsTargetFrame and uconfig.enableDebuff) then
 		self.Debuffs = ns.AddDebuffs(self, "TOPLEFT", 20, 4, 3, 2)
 		self.Debuffs.CustomFilter   = ns.CustomAuraFilters.target
 		self.Debuffs:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", 7, 10)
 
-	elseif (self.cUnit == "pet") then
+	elseif (self.cUnit == "pet" and uconfig.enableDebuff) then
 		self.Debuffs = ns.AddDebuffs(self, "TOPLEFT", 20, 4, 6, 1)
 		self.Debuffs:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 1, -3)
 		self.Debuffs.CustomFilter   = ns.CustomAuraFilters.pet
 
 	elseif (self.IsPartyFrame) then
-		self.Debuffs = ns.AddDebuffs(self, "TOPLEFT", 20, 4, 4, 1)
-		self.Debuffs:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", 5, 1)
-		self.Debuffs.CustomFilter   = ns.CustomAuraFilters.party
+		if (uconfig.enableDebuff) then
+			self.Debuffs = ns.AddDebuffs(self, "TOPLEFT", 20, 4, 4, 1)
+			self.Debuffs:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", 5, 1)
+			self.Debuffs.CustomFilter   = ns.CustomAuraFilters.party
+		end
 
-		self.Buffs = ns.AddBuffs(self, "TOPLEFT", 20, 4, 4, 1)
-		self.Buffs:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 2, -11)
-		self.Buffs.CustomFilter   = ns.CustomAuraFilters.party
+		if (uconfig.enableBuff) then
+			self.Buffs = ns.AddBuffs(self, "TOPLEFT", 20, 4, 4, 1)
+			self.Buffs:SetPoint("TOPLEFT", self.Health, "BOTTOMLEFT", 2, -11)
+			self.Buffs.CustomFilter   = ns.CustomAuraFilters.party
+		end
 
 	elseif (self.cUnit == "boss") then
-		self.Buffs = ns.AddBuffs(self, "TOPLEFT", 30, 4.5, 5, 1)
-		self.Buffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 3, -6)
+		if (uconfig.enableBuff) then
+			self.Buffs = ns.AddBuffs(self, "TOPLEFT", 30, 4.5, 5, 1)
+			self.Buffs:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 3, -6)
+		end
 
-		self.Debuffs = ns.AddDebuffs(self, "TOPRIGHT", 30, 4.5, 7, 1)
-		self.Debuffs:SetPoint("TOPRIGHT", self, "BOTTOMLEFT", -34, 18)
-		self.Debuffs.CustomFilter   = ns.CustomAuraFilters.boss
+		if (uconfig.enableDebuff) then
+			self.Debuffs = ns.AddDebuffs(self, "TOPRIGHT", 30, 4.5, 7, 1)
+			self.Debuffs:SetPoint("TOPRIGHT", self, "BOTTOMLEFT", -34, 18)
+			self.Debuffs.CustomFilter   = ns.CustomAuraFilters.boss
+		end
 	end
 
 	--[[ 	Range Fader 	]]

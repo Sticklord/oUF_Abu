@@ -208,6 +208,8 @@ L.Scale = "Scale"
 L.Style = "Style"
 L.EnableAuras = "Enable Auras"
 L.EnableAuraTip = "Enable auras for this unit"
+L.EnableBuff = "Enable Buffs"
+L.EnableDebuff = "Enable Debuffs"
 L.BuffPos = "Buff Postion"
 L.DebuffPos = "Debuff Postion"
 
