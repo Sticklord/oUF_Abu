@@ -16,84 +16,83 @@ local oUF = ns.oUF or oUF
 
 local function startFeedbackAnim(self, oldValue, newValue) --copied, only removed need for CVars
 	if (not self.initialized) then
-		return;
+		return
 	end
 
-	oldValue = Clamp(oldValue, 0, self.maxValue);
-	newValue = math.max(newValue, 0);
+	oldValue = Clamp(oldValue, 0, self.maxValue)
+	newValue = math.max(newValue, 0)
 
-	if ( newValue > oldValue ) then -- Gaining power
-		self.updatingGain = true;
-		-- self:SetScript("OnUpdate", BuilderSpender_OnUpdateFeedback);
+	if (newValue > oldValue) then -- Gaining power
+		self.updatingGain = true
+		self:SetScript("OnUpdate", BuilderSpender_OnUpdateFeedback)
+		self.oldValue = oldValue
+		self.newValue = newValue
+		self.animGainStartTime = GetTime()
+	elseif (newValue < oldValue) then -- Losing power
+		local glowTexture = self.LossGlowTexture
+		local barTexture = self.BarTexture
+		local maxValue = self.maxValue
+		local leftPosition = newValue / maxValue * self:GetWidth()
+		local width = (oldValue - newValue) / maxValue * self:GetWidth()
+		local texMinX = newValue / maxValue
+		local texMaxX = oldValue / maxValue
 
-		self.oldValue = oldValue;
-		self.newValue = newValue;
-		self.animGainStartTime = GetTime();
-	elseif ( newValue < oldValue ) then -- Losing power
-		local glowTexture = self.LossGlowTexture;
-		local barTexture = self.BarTexture;
-		local maxValue = self.maxValue;
-		local leftPosition = newValue / maxValue * self:GetWidth();
-		local width = (oldValue - newValue) / maxValue * self:GetWidth();
-		local texMinX = newValue / maxValue;
-		local texMaxX = oldValue / maxValue;
+		local height = self:GetHeight()
 
-		local height = self:GetHeight();
+		glowTexture:ClearAllPoints()
+		glowTexture:SetPoint("TOPLEFT", leftPosition, 0)
+		glowTexture:SetHeight(height)
+		glowTexture:SetWidth(width)
+		glowTexture:SetTexCoord(texMinX, texMaxX, 0, 1)
+		glowTexture:Show()
+		glowTexture:SetAlpha(0)
 
-		glowTexture:ClearAllPoints();
-		glowTexture:SetPoint("TOPLEFT", leftPosition, 0);
-		glowTexture:SetHeight(height);
-		glowTexture:SetWidth(width);
-		glowTexture:SetTexCoord(texMinX, texMaxX, 0, 1);
-		glowTexture:Show();
-		glowTexture:SetAlpha(0);
+		barTexture:ClearAllPoints()
+		barTexture:SetPoint("TOPLEFT", leftPosition, 0)
+		barTexture:SetHeight(height)
+		barTexture:SetWidth(width)
+		barTexture:SetTexCoord(texMinX, texMaxX, 0, 1)
+		barTexture:Show()
+		barTexture:SetAlpha(1)
 
-		barTexture:ClearAllPoints();
-		barTexture:SetPoint("TOPLEFT", leftPosition, 0);
-		barTexture:SetHeight(height);
-		barTexture:SetWidth(width);
-		barTexture:SetTexCoord(texMinX, texMaxX, 0, 1);
-		barTexture:Show();
-		barTexture:SetAlpha(1);
-
-		self.updatingLoss = true;
-		-- self:SetScript("OnUpdate", BuilderSpender_OnUpdateFeedback);
-		self.animLossStartTime = GetTime();
+		self.updatingLoss = true
+		self:SetScript("OnUpdate", BuilderSpender_OnUpdateFeedback)
+		self.animLossStartTime = GetTime()
 	end
 end
 
 local Update = function(self, event, unit)
-	if(self.unit ~= unit) then return end
+	if (self.unit ~= unit) then return end
 	local element = self.BuilderSpender
 
-	if(element.PreUpdate) then element:PreUpdate(unit) end
+	if (element.PreUpdate) then element:PreUpdate(unit) end
 
 	local currValue = UnitPower(self.unit, element.powerType)
-	if ( currValue ~= element.currValue or event == "ForceUpdate" ) then
-		if ( element.FeedbackFrame ) then
+	if (currValue ~= element.currValue or event == "ForceUpdate") then
+		if (element.FeedbackFrame) then
 			-- Only show anim if change is more than 10%
-			local oldValue = element.currValue or 0;
-			if ( element.FeedbackFrame.maxValue ~= 0 and math.abs(currValue - oldValue) / element.FeedbackFrame.maxValue > 0.1 ) then
+			local oldValue = element.currValue or 0
+			if (element.FeedbackFrame.maxValue ~= 0 and math.abs(currValue - oldValue) / element.FeedbackFrame.maxValue > 0.1) then
 				startFeedbackAnim(element.FeedbackFrame, oldValue, currValue)
 			end
 		end
-		if ( element.FullPowerFrame and element.FullPowerFrame.active ) then
-			element.FullPowerFrame:StartAnimIfFull(element.currValue or 0, element.maxValue--[[currValue]]);
+		if (element.FullPowerFrame and element.FullPowerFrame.active) then
+			element.FullPowerFrame:StartAnimIfFull(element.currValue or 0, element.maxValue--[[currValue]])
 		end
 		element.currValue = currValue
 	end
 
-	if(element.PostUpdate) then
+	if (element.PostUpdate) then
 		return element:PostUpdate(unit)
 	end
 end
 
 local Path = function(self, ...)
-	return (self.BuilderSpender.Override or Update)(self, ...)
+	return (self.BuilderSpender.Override or Update) (self, ...)
 end
 
 local Visibility = function(self, event, unit)
-	if (unit and unit ~= self.unit) then return false; end
+	if (unit and unit ~= self.unit) then return false end
 	local element = self.BuilderSpender
 	local powerType, powerToken = UnitPowerType(self.unit)
 	local info = self.colors.power[powerToken]
@@ -114,17 +113,17 @@ local Visibility = function(self, event, unit)
 		end
 	end
 
-	if ( element.powerType ~= powerType ) then
-		element.powerType = powerType;
-		if ( element.FullPowerFrame ) then
-			element.FullPowerFrame:RemoveAnims();
+	if (element.powerType ~= powerType) then
+		element.powerType = powerType
+		if (element.FullPowerFrame) then
+			element.FullPowerFrame:RemoveAnims()
 		end
-		element.currValue = UnitPower(self.unit, powerType);
+		element.currValue = UnitPower(self.unit, powerType)
 	end
 end
 
 local VisibilityPath = function(self, ...)
-	return (self.BuilderSpender.OverrideVisibility or Visibility)(self, ...)
+	return (self.BuilderSpender.OverrideVisibility or Visibility) (self, ...)
 end
 
 local ForceUpdate = function(element)
@@ -133,7 +132,7 @@ end
 
 local Enable = function(self, unit)
 	local element = self.BuilderSpender
-	if(unit == "player" and element) then
+	if (unit == "player" and element) then
 
 		local feedback = element.FeedbackFrame
 		local fullpower = element.FullPowerFrame
@@ -159,7 +158,7 @@ end
 
 local Disable = function(self)
 	local element = self.BuilderSpender
-	if(element) then
+	if (element) then
 		--Update
 		self:UnregisterEvent("UNIT_POWER_FREQUENT", Path)
 

@@ -18,6 +18,7 @@ globals = {
     "ARENA",
     "BackdropTemplateMixin",
     "BOSS",
+    "BuilderSpender_OnUpdateFeedback",
     "CAT_FORM",
     "Clamp",
     "CLASS_ICON_TCOORDS",
