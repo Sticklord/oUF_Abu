@@ -44,7 +44,7 @@ local function Update(self, event, ...)
 		CooldownFrame_Set(self.Trinket.cooldownFrame, 1, 1, 1)
 	end
 
-	if(self.Trinket.PostUpdate) then self.Trinket:PostUpdate(event) end
+	if (self.Trinket.PostUpdate) then self.Trinket:PostUpdate(event) end
 end
 
 local Enable = function(self)

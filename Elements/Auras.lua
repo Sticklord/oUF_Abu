@@ -6,7 +6,7 @@ local floor, format = floor, string.format
 local createAuraIcon
 do
 	local function Aura_OnClick(self)
-		if not ( IsControlKeyDown() and IsAltKeyDown() ) then return end
+		if not (IsControlKeyDown() and IsAltKeyDown()) then return end
 		local id = self.spellID
 		if id then
 			local db = "general" -- fix this someday
@@ -14,7 +14,7 @@ do
 			if oUFAbu:GetAuraSettings()[db][id] then
 				ns.Print(format(L["AuraExists"], name, id))
 			else
-				ns.Print(format(L["AuraAdded"], name, id ))
+				ns.Print(format(L["AuraAdded"], name, id))
 				oUFAbu:GetAuraSettings()[db][id] = 0
 			end
 		end
@@ -26,7 +26,7 @@ do
 	end
 
 	local function Aura_OnEnter(self)
-		if(not self:IsVisible()) then return end
+		if (not self:IsVisible()) then return end
 
 		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
 		UpdateTooltip(self)
@@ -37,13 +37,13 @@ do
 	end
 
 	local function fixCooldownFlash(self, start, duration)
-		if (self.duration == duration) and (self.starttime == start) then return; end
+		if (self.duration == duration) and (self.starttime == start) then return end
 		self.starttime = start
 		self.duration = duration
 		self:_SetCooldown(start, duration)
 	end
 
-	function createAuraIcon( element, index )
+	function createAuraIcon(element, index)
 		--element.createdIcons = element.createdIcons + 1
 
 		local button = CreateFrame("Button", element:GetDebugName() .. "Button" .. index, element)
@@ -140,19 +140,19 @@ do
 		end
 	end
 
-	local function UpdateAura( button, elapsed )
-		if not (button.timeLeft) then return; end
+	local function UpdateAura(button, elapsed)
+		if not (button.timeLeft) then return end
 		button.timeLeft = button.timeLeft - elapsed
 
 		if button.nextupdate > 0 then
 			button.nextupdate = button.nextupdate - elapsed
-			return;
+			return
 		end
 
 		if (button.timeLeft <= 0) then
 			button.timer:SetText("")
 			button:SetScript("OnUpdate", nil)
-			return;
+			return
 		end
 
 		local text
@@ -166,7 +166,7 @@ do
 		pet = true,
 	}
 
-	function postUpdateIcon( element, unit, button, index, offset )
+	function postUpdateIcon(element, unit, button, index, offset)
 		local dtype, duration, expirationTime, _, _, _, spellID = select(4, UnitAura(unit, index, button.filter))
 		button:EnableMouse(not ns.config.clickThrough)
 		button.overlay:Show()
@@ -188,8 +188,8 @@ do
 			button.icon:SetDesaturated(false)
 		end
 
-		if ( button.cd.noCooldownCount ) then
-			if ( duration and duration > 0 ) then
+		if (button.cd.noCooldownCount) then
+			if (duration and duration > 0) then
 				if (not button.timer:IsShown()) then
 					button.timer:Show()
 				end
@@ -221,7 +221,7 @@ end
 --[[
 do
 	local function PreSetPosition(element, max)
-		if ( element.createdIcons > element.anchoredIcons ) then
+		if (element.createdIcons > element.anchoredIcons) then
 			return 1
 		end
 
@@ -254,7 +254,7 @@ do
 			local button = element[i]
 
 			-- Bail out if the to range is out of scope.
-			if(not button) then break end
+			if (not button) then break end
 
 			if (element.largeAuraList[i]) then
 				size = large_size
@@ -263,7 +263,7 @@ do
 				size = small_size
 			end
 
-			if ( column_width + size + element.spacing > max_column_width) then -- new row
+			if (column_width + size + element.spacing > max_column_width) then -- new row
 				column_width = 0
 				if (row_contains_large_icon) then
 					row_height = element.spacing + large_size

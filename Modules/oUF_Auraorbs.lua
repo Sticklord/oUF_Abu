@@ -56,8 +56,8 @@ local Update = function(self, event, unit)
 		end
 	end
 
-	if stack == orbs.lastNumCount then return; end
-	orbs.lastNumStacks = stack;
+	if stack == orbs.lastNumCount then return end
+	orbs.lastNumStacks = stack
 
 	for i = 1, orbs.maxStacks do
 		local orb = orbs[i]
@@ -140,7 +140,7 @@ end
 
 local function Disable(self)
 	local orbs = self.AuraOrbs
-	if(orbs) then
+	if (orbs) then
 		self:UnregisterEvent("UNIT_AURA", Path)
 
 		if not ns.Classic then

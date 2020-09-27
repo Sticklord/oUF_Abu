@@ -119,13 +119,13 @@ local function UnrealCastbar(castbar)
 	castbar.fadeOut = nil
 	castbar.channeling = nil
 
-	if(castbar.Text) then castbar.Text:SetText"Fake Cast" end
-	if(castbar.Icon) then castbar.Icon:SetTexture[[Interface\Icons\INV_Misc_Rune_01]] end
-	if(castbar.Time) then castbar.Time:SetText() end
-	if(castbar.Spark)then castbar.Spark:Show() end
+	if (castbar.Text) then castbar.Text:SetText"Fake Cast" end
+	if (castbar.Icon) then castbar.Icon:SetTexture[[Interface\Icons\INV_Misc_Rune_01]] end
+	if (castbar.Time) then castbar.Time:SetText() end
+	if (castbar.Spark)then castbar.Spark:Show() end
 	castbar:SetAlpha(1.0)
 	castbar:Show()
-	if(castbar.PostCastStart) then
+	if (castbar.PostCastStart) then
 		castbar:PostCastStart("player", "Fake Cast", 0)
 	end
 end

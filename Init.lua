@@ -80,7 +80,7 @@ function oUFAbu:ADDON_LOADED(event, addon)
 		if (ns.config.focBut ~= "NONE") then
 			--Blizzard raid frame
 			hooksecurefunc("CompactUnitFrame_SetUpFrame", function(frame)
-				if ((UnitAffectingCombat("player") or UnitAffectingCombat("pet"))) then return; end
+				if ((UnitAffectingCombat("player") or UnitAffectingCombat("pet"))) then return end
 				frame:SetAttribute(ns.config.focMod.."type"..ns.config.focBut, "focus")
 			end)
 			-- World Models
@@ -94,7 +94,7 @@ function oUFAbu:ADDON_LOADED(event, addon)
 		local prefix = ""
 		if (ns.config.borderType == "neal") then
 			prefix = ""
-		elseif(ns.config.borderType == "abu") then
+		elseif (ns.config.borderType == "abu") then
 			prefix = "2"
 		end
 		ns.config.textureBorder = "Interface\\AddOns\\oUF_Abu\\Media\\Border\\"..prefix.."borderNormal"
@@ -123,18 +123,18 @@ end
 -- Target changed sounds
 local memory = { }
 local function PlayTargetSounds(unit)
-	if ( UnitExists(unit) ) then
+	if (UnitExists(unit)) then
 		memory[unit] = true
-		if ( UnitIsEnemy(unit, "player") ) then
-			PlaySound(SOUNDKIT.IG_CREATURE_AGGRO_SELECT);
-		elseif ( UnitIsFriend("player", unit) ) then
-			PlaySound(SOUNDKIT.IG_CHARACTER_NPC_SELECT);
+		if (UnitIsEnemy(unit, "player")) then
+			PlaySound(SOUNDKIT.IG_CREATURE_AGGRO_SELECT)
+		elseif (UnitIsFriend("player", unit)) then
+			PlaySound(SOUNDKIT.IG_CHARACTER_NPC_SELECT)
 		else
-			PlaySound(SOUNDKIT.IG_CHARACTER_NPC_SELECT);
+			PlaySound(SOUNDKIT.IG_CHARACTER_NPC_SELECT)
 		end
 	elseif memory[unit] then
 		memory[unit] = false
-		PlaySound(SOUNDKIT.INTERFACE_SOUND_LOST_TARGET_UNIT);
+		PlaySound(SOUNDKIT.INTERFACE_SOUND_LOST_TARGET_UNIT)
 	end
 end
 
@@ -189,8 +189,8 @@ end
 ----------------------[[	View Auras      ]]-------------------------
 function oUFAbu:MODIFIER_STATE_CHANGED(event, key, state)
 	if
-		( IsControlKeyDown() and (key == "LALT" or key == "RALT")) or
-		( IsAltKeyDown() and (key == "LCTRL" or key == "RCTRL"))
+		(IsControlKeyDown() and (key == "LALT" or key == "RALT")) or
+		(IsAltKeyDown() and (key == "LCTRL" or key == "RCTRL"))
 	then
 		local a, b
 		if state == 1 then
@@ -251,7 +251,7 @@ function oUFAbu:SetupOptions()
 end
 
 function oUFAbu:LoadOptions()
-	if IsAddOnLoaded(OUF_ABUOPTIONS) then return true; end
+	if IsAddOnLoaded(OUF_ABUOPTIONS) then return true end
 
 	if InCombatLockdown() then
 		ns.Print(ns.L["OptionsLoadAfterCombat"])
@@ -270,7 +270,7 @@ function oUFAbu:PLAYER_REGEN_ENABLED(event)
 	local loaded, reason = LoadAddOn(OUF_ABUOPTIONS)
 	if not loaded then
 		ns.Print(string.format(ADDON_LOAD_FAILED, OUF_ABUOPTIONS, _G["ADDON_"..reason]))
-		return;
+		return
 	end
 	InterfaceOptionsFrame_OpenToCategory("oUF Abu")
 	InterfaceOptionsFrame_OpenToCategory("oUF Abu")

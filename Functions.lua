@@ -91,7 +91,7 @@ end
 local TEXT_PERCENT, TEXT_SHORT, TEXT_LONG, TEXT_MINMAX, TEXT_MAX, TEXT_DEF, TEXT_NONE = 0,1,2,3,4,5,6
 
 local function SetValueText(element, tag, cur, max, color)
-	if ( not max or max == 0 ) then max = 100; end -- not sure why this happens
+	if (not max or max == 0) then max = 100 end -- not sure why this happens
 
 	if (tag == TEXT_PERCENT) and (max < 200) then
 		tag = TEXT_SHORT -- Shows energy etc. with real number
@@ -208,7 +208,7 @@ local function appendTexture(healthbar, anchorTexture, bar, amount, fromAmount, 
 	bar:SetTexCoord(fromAmount/maxValue, endAmount/maxValue, 0, 1)
 	bar:Show()
 
-	if ( bar.overlay ) then
+	if (bar.overlay) then
 		bar.overlay:Show()
 		bar.overlay:SetTexCoord(0, (math.abs(amount)* healthbar.sizeWidth/maxValue)/bar.overlay.tileSize, 0, healthbar.sizeHeight/bar.overlay.tileSize)
 	end
@@ -266,7 +266,7 @@ local function updateAbsorbBars(healthbar, unit, curHP, maxHP)
 end
 
 function ns.UpdateHealthOverride(self, event, unit)
-	if not unit or self.unit ~= unit then return; end
+	if not unit or self.unit ~= unit then return end
 	local cur, max = UnitHealth(unit), UnitHealthMax(unit)
 	if (event == "UNIT_HEAL_PREDICTION" or event == "UNIT_ABSORB_AMOUNT_CHANGED" or event == "UNIT_HEAL_ABSORB_AMOUNT_CHANGED") then
 		updateAbsorbBars(self.Health, unit, cur, max)
@@ -274,7 +274,7 @@ function ns.UpdateHealthOverride(self, event, unit)
 	end
 	local disconnected = not UnitIsConnected(unit)
 	self.Health:SetMinMaxValues(0, max)
-	if(disconnected) then
+	if (disconnected) then
 		self.Health:SetValue(max)
 	else
 		self.Health:SetValue(cur)
@@ -391,7 +391,7 @@ do
 		end
 		h, s, l = h * 6, s, l
 		local c = (1 - math.abs(2 * l - 1)) * s
-		local x = (1 - math.abs(h % 2 - 1 )) * c
+		local x = (1 - math.abs(h % 2 - 1)) * c
 		local m, r, g, b = (l - .5 * c)
 		if h < 1 	 then
 			r, g, b = c, x, 0
@@ -506,7 +506,7 @@ function oUFAbu:SetAllStatusBars()
 	for _, bar in ipairs(ns.statusbars) do
 		bar.texture = file
 		texture = bar.GetStatusBarTexture and bar:GetStatusBarTexture() or bar
-		if ( not texture:GetAtlas() ) then
+		if (not texture:GetAtlas()) then
 			texture:SetTexture(file)
 		end
 	end

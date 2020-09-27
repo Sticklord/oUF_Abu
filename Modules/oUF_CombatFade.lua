@@ -1,7 +1,7 @@
 local _, ns = ...
 local oUF = ns.oUF or oUF
 
-if not oUF then return; end
+if not oUF then return end
 
 
 -- Frame fading -- Stolen from blizzard UIPARRENT.lua
@@ -15,30 +15,30 @@ do
 		local frame, fadeInfo
 		while FADEFRAMES[index] do
 			frame = FADEFRAMES[index]
-			fadeInfo = FADEFRAMES[index].fadeInfo;
+			fadeInfo = FADEFRAMES[index].fadeInfo
 			-- Reset the timer if there isn't one, this is just an internal counter
-			if ( not fadeInfo.fadeTimer ) then
+			if (not fadeInfo.fadeTimer) then
 				fadeInfo.fadeTimer = 0
 			end
-			fadeInfo.fadeTimer = fadeInfo.fadeTimer + elapsed;
+			fadeInfo.fadeTimer = fadeInfo.fadeTimer + elapsed
 
 			-- If the fadeTimer is less then the desired fade time then set the alpha otherwise hold the fade state,
 			-- call the finished function, or just finish the fade
-			if ( fadeInfo.fadeTimer < fadeInfo.timeToFade ) then
-				if ( fadeInfo.mode == "IN" ) then
+			if (fadeInfo.fadeTimer < fadeInfo.timeToFade) then
+				if (fadeInfo.mode == "IN") then
 					frame:SetAlpha((fadeInfo.fadeTimer / fadeInfo.timeToFade) * (fadeInfo.endAlpha - fadeInfo.startAlpha) + fadeInfo.startAlpha)
-				elseif ( fadeInfo.mode == "OUT" ) then
+				elseif (fadeInfo.mode == "OUT") then
 					frame:SetAlpha(((fadeInfo.timeToFade - fadeInfo.fadeTimer) / fadeInfo.timeToFade) * (fadeInfo.startAlpha - fadeInfo.endAlpha)  + fadeInfo.endAlpha)
 				end
 			else
 				frame:SetAlpha(fadeInfo.endAlpha)
 				-- If there is a fadeHoldTime then wait until its passed to continue on
-				if ( fadeInfo.fadeHoldTime and fadeInfo.fadeHoldTime > 0  ) then
+				if (fadeInfo.fadeHoldTime and fadeInfo.fadeHoldTime > 0) then
 					fadeInfo.fadeHoldTime = fadeInfo.fadeHoldTime - elapsed
 				else
 					-- Complete the fade and call the finished function if there is one
 					tDeleteItem(FADEFRAMES, frame)
-					if ( fadeInfo.finishedFunc ) then
+					if (fadeInfo.finishedFunc) then
 						fadeInfo.finishedFunc(fadeInfo.finishedArg1, fadeInfo.finishedArg2, fadeInfo.finishedArg3, fadeInfo.finishedArg4)
 						fadeInfo.finishedFunc = nil
 					end
@@ -48,7 +48,7 @@ do
 			index = index + 1
 		end
 
-		if ( #FADEFRAMES == 0 ) then
+		if (#FADEFRAMES == 0) then
 			self:SetScript("OnUpdate", nil)
 		end
 	end
@@ -61,25 +61,25 @@ do
 			fadeInfo.startAlpha = alpha
 		end
 
-		fadeInfo.fadeTimer = 0;
+		fadeInfo.fadeTimer = 0
 		frame.fadeInfo = fadeInfo
 
 		local index = 1
 		while FADEFRAMES[index] do
 			-- If frame is already set to fade then return
-			if ( FADEFRAMES[index] == frame ) then
+			if (FADEFRAMES[index] == frame) then
 				return
 			end
 			index = index + 1
 		end
 
-		tinsert(FADEFRAMES, frame);
+		tinsert(FADEFRAMES, frame)
 		frameFadeManager:SetScript("OnUpdate", UIFrameFade_OnUpdate)
 	end
 
 	-- Convenience function to do a simple fade in
 	function UIFrameFadeIn(frame, timeToFade, startAlpha, endAlpha)
-		local fadeInfo = {};
+		local fadeInfo = {}
 		fadeInfo.mode = "IN"
 		fadeInfo.timeToFade = timeToFade or 0.2
 		fadeInfo.startAlpha = startAlpha or 0
@@ -89,7 +89,7 @@ do
 
 	-- Convenience function to do a simple fade out
 	function UIFrameFadeOut(frame, timeToFade, startAlpha, endAlpha)
-		local fadeInfo = {};
+		local fadeInfo = {}
 		fadeInfo.mode = "OUT"
 		fadeInfo.timeToFade = timeToFade or 0.2
 		fadeInfo.startAlpha = startAlpha or 1
@@ -167,9 +167,9 @@ local function Enable(self)
 	end
 
 	if not self.CombatFadehooked then
-		self:HookScript("OnEnter", function(self) if not enabledFrames[self] then return; end mouseOver = true; Update(self, "MOUSEOVER") end)
-		self:HookScript("OnLeave", function(self) if not enabledFrames[self] then return; end mouseOver = false; Update(self, "MOUSEOVER") end)
-		self:HookScript("OnHide", function(self)  if not enabledFrames[self] then return; end self.fadeInfo.mode = "OUT"; self:SetAlpha(0) end)
+		self:HookScript("OnEnter", function(self) if not enabledFrames[self] then return end mouseOver = true Update(self, "MOUSEOVER") end)
+		self:HookScript("OnLeave", function(self) if not enabledFrames[self] then return end mouseOver = false Update(self, "MOUSEOVER") end)
+		self:HookScript("OnHide", function(self)  if not enabledFrames[self] then return end self.fadeInfo.mode = "OUT" self:SetAlpha(0) end)
 		self.CombatFadehooked = true
 	end
 
@@ -178,7 +178,7 @@ end
 
 
 local function Disable(self)
-	if not enabledFrames[self] then return; end
+	if not enabledFrames[self] then return end
 	enabledFrames[self] = nil
 	UIFrameFadeIn(self)
 

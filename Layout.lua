@@ -286,7 +286,7 @@ local function UpdatePlayerFrame(self)
 	self.PvPIndicator:ClearAllPoints()
 
 	if not ns.Classic then
-		if ( config.showComboPoints ) then
+		if (config.showComboPoints) then
 			ComboPointPlayerFrame:Setup()
 		else
 			ComboPointPlayerFrame:UnregisterAllEvents()
@@ -310,18 +310,18 @@ local function UpdatePlayerFrame(self)
 		self.RaidTargetIndicator:SetPoint("CENTER", self.Portrait, "TOP", 0, -5)
 		PlayerFrameVehicleTexture:Show()
 
-		if ( self.classPowerBar ) then
+		if (self.classPowerBar) then
 			self.classPowerBar:Hide()
 		end
 
-		TotemFrame:Hide();
+		TotemFrame:Hide()
 
-		if ( playerClass == "SHAMAN" ) then
-		elseif ( playerClass == "DRUID" ) then
+		if (playerClass == "SHAMAN") then
+		elseif (playerClass == "DRUID") then
 			-- EclipseBarFrame:Hide()
-		elseif ( playerClass == "DEATHKNIGHT" ) then
+		elseif (playerClass == "DEATHKNIGHT") then
 			RuneFrame:Hide()
-		elseif ( playerClass == "PRIEST" ) then
+		elseif (playerClass == "PRIEST") then
 			PriestBarFrame:Hide()
 		end
 	else
@@ -332,23 +332,23 @@ local function UpdatePlayerFrame(self)
 		self.PvPIndicator:SetPoint("TOPLEFT", self.Texture, 23, -23)
 		self.LeaderIndicator:SetPoint("TOPLEFT", self.Portrait, 3, 2)
 		self.RaidTargetIndicator:SetPoint("CENTER", self.Portrait, "TOP", 0, -1)
-		PlayerFrameVehicleTexture:Hide();
+		PlayerFrameVehicleTexture:Hide()
 
-		if ( self.classPowerBar ) then
-			self.classPowerBar:Setup();
+		if (self.classPowerBar) then
+			self.classPowerBar:Setup()
 		end
 
 		if not ns.Classic then
-			TotemFrame_Update();
+			TotemFrame_Update()
 		end
 
-		if ( playerClass == "SHAMAN" ) then
-		elseif ( playerClass == "DRUID" ) then
-			--EclipseBar_UpdateShown(EclipseBarFrame);
-		elseif ( playerClass == "DEATHKNIGHT" ) then
-			RuneFrame:Show();
-		elseif ( playerClass == "PRIEST" ) then
-			PriestBarFrame_CheckAndShow();
+		if (playerClass == "SHAMAN") then
+		elseif (playerClass == "DRUID") then
+			--EclipseBar_UpdateShown(EclipseBarFrame)
+		elseif (playerClass == "DEATHKNIGHT") then
+			RuneFrame:Show()
+		elseif (playerClass == "PRIEST") then
+			PriestBarFrame_CheckAndShow()
 		end
 	end
 end
@@ -358,7 +358,7 @@ local function UpdateUnitFrameLayout(frame)
 	local data = GetData(cUnit)
 	local uconfig = ns.config[cUnit]
 
-	if (frame.cUnit == "pet" or frame.IsMainFrame or frame.IsTargetFrame ) then
+	if (frame.cUnit == "pet" or frame.IsMainFrame or frame.IsTargetFrame) then
 		frame.CombatFade = ns.config.combatFade
 	end
 
@@ -425,7 +425,7 @@ local function UpdateUnitFrameLayout(frame)
 end
 
 function oUFAbu:UpdateBaseFrames(optUnit)
-	if InCombatLockdown() then return; end
+	if InCombatLockdown() then return end
 	config = ns.config
 	if optUnit and optUnit:find("%d") then
 		optUnit = optUnit:match("^.%a+")
@@ -527,7 +527,7 @@ local function CreateUnitLayout(self, unit)
 	if data.por then
 		self.Portrait = self.Health:CreateTexture(nil, "BACKGROUND")
 		self.Portrait.Override = function(self, event, unit)
-			if (not unit or not UnitIsUnit(self.unit, unit)) then return; end
+			if (not unit or not UnitIsUnit(self.unit, unit)) then return end
 			local portrait = self.Portrait
 			local _, class = UnitClass(self.unit)
 			if config.classPortraits and UnitIsPlayer(unit) and class then
@@ -586,8 +586,8 @@ local function CreateUnitLayout(self, unit)
 
 		absorbBar.glow = self.Health:CreateTexture(nil, "OVERLAY", "OverAbsorbGlowTemplate")
 		absorbBar.glow:ClearAllPoints()
-		absorbBar.glow:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", -6, 0);
-		absorbBar.glow:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMRIGHT", -6, 0);
+		absorbBar.glow:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", -6, 0)
+		absorbBar.glow:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMRIGHT", -6, 0)
 		absorbBar.glow:SetWidth(13)
 		absorbBar.glow:Show()
 		self.Health.absorbBar = absorbBar
@@ -731,17 +731,17 @@ local function CreateUnitLayout(self, unit)
 		end
 
 		-- Totems
-		if ( config[playerClass].showTotems ) then
+		if (config[playerClass].showTotems) then
 			ns.classModule.Totems(self, config, uconfig)
 		end
 
 		-- Alternate Mana Bar
-		if ( config[playerClass].showAdditionalPower ) then
+		if (config[playerClass].showAdditionalPower) then
 			ns.classModule.additionalPowerBar(self, config, uconfig)
 		end
 
 		-- Load Class Modules
-		if ( ns.classModule[playerClass] ) then
+		if (ns.classModule[playerClass]) then
 			self.classPowerBar = ns.classModule[playerClass](self, config, uconfig)
 		end
 
@@ -749,7 +749,7 @@ local function CreateUnitLayout(self, unit)
 		self.Aurabar = ns.classModule.addAuraBar(self, config, uconfig)
 
 		--builderspender (white overlay when gaining/losing power)
-		if ( config.builderSpender ) then
+		if (config.builderSpender) then
 			local FeedbackFrame = CreateFrame("Frame", nil, self.Power, "BuilderSpenderFrame")
 			FeedbackFrame.BarTexture:SetTexture()
 
@@ -762,7 +762,7 @@ local function CreateUnitLayout(self, unit)
 		end
 
 		-- Power Prediction Bar (Display estimated cost of spells when casting)
-		if ( config.powerPredictionBar ) then
+		if (config.powerPredictionBar) then
 			local mainBar, altBar
 			mainBar = CreateFrame("StatusBar",  self.Power:GetDebugName().."PowerPrediction", self.Power)
 			mainBar:SetFrameLevel(self.Power:GetFrameLevel())
@@ -772,7 +772,7 @@ local function CreateUnitLayout(self, unit)
 			mainBar:SetPoint("RIGHT", self.Power:GetStatusBarTexture(), "RIGHT")
 			mainBar:SetStatusBarColor(1,1,1,.3)
 
-			if ( self.AdditionalPower ) then
+			if (self.AdditionalPower) then
 				altBar = CreateFrame("StatusBar", nil, self.AdditionalPower)
 				altBar:SetFrameLevel(self.AdditionalPower:GetFrameLevel())
 				altBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar-Glow]], "BORDER")
@@ -790,7 +790,7 @@ local function CreateUnitLayout(self, unit)
 
 		-- PvPIndicator Timer
 		self.PvPIndicatorTimer = ns.CreateFontStringNumber(self, 13, "CENTER")
-		self.PvPIndicatorTimer:SetPoint("BOTTOM", self.PvPIndicator, "TOP", 2, -24  )
+		self.PvPIndicatorTimer:SetPoint("BOTTOM", self.PvPIndicator, "TOP", 2, -24)
 		self.PvPIndicatorTimer.frequentUpdates = 0.5
 		self:Tag(self.PvPIndicatorTimer, "[abu:pvptimer]")
 

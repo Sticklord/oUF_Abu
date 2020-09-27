@@ -109,7 +109,7 @@ local function anchor_GetCurrent(anchor)
 	local width, height = anchor:GetSize()
 
 	if point:find("LEFT") then
-		x = x + (width / 2 )
+		x = x + (width / 2)
 	elseif  point:find("RIGHT") then
 		x = x - (width / 2)
 	end
@@ -265,7 +265,7 @@ end
 local LOCKED = true
 function oUFAbu:ToggleAllAnchors(force_Lock)
 	if LOCKED and (not force_Lock) then
-		if InCombatLockdown() then return self:Print(L.Anchor_InCombat); end
+		if InCombatLockdown() then return self:Print(L.Anchor_InCombat) end
 		self:RegisterEvent("PLAYER_REGEN_DISABLED")
 		self:Print(L.Anchors_Unlocked)
 		for i = 1, #AnchorFrames do

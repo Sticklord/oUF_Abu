@@ -54,7 +54,7 @@ end
 
 function oUFAbu:DeleteProfile(id)
 	if not oUFAbuSettings[id] or id == self.DEFAULT then return false end
-	if ( id == self:GetProfileID() ) then
+	if (id == self:GetProfileID()) then
 		self:SetProfile(self.DEFAULT)
 	end
 
@@ -122,7 +122,7 @@ end
 
 function oUFAbu:DeleteAuraProfile(id)
 	if (not oUFAbuAuraFilters[id]) or id == self.DEFAULT then return false end
-	if ( id == self:GetAuraProfileID() ) then
+	if (id == self:GetAuraProfileID()) then
 		self:SetAuraProfile(self.DEFAULT)
 	end
 

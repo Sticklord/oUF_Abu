@@ -1,5 +1,5 @@
 local _, ns = ...
-if ns.locale ~= "deDE" then return; end
+if ns.locale ~= "deDE" then return end
 local L = ns.L
 
 

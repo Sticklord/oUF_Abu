@@ -36,7 +36,7 @@ oUF.Tags.Events["abu:level"] = "UNIT_LEVEL PLAYER_LEVEL_UP"
 oUF.Tags.Methods["abu:level"] = function(unit)
 	local level = UnitLevel(unit)
 	if not ns.Classic then
-		if(UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit)) then
+		if (UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit)) then
 			level = UnitBattlePetLevel(unit)
 		end
 	end
@@ -57,7 +57,7 @@ oUF.Tags.Methods["abu:name"] = function(unit, realUnit)
 
 	if not unitName then
 		local id = unit:match"arena(%d)$"
-		if(id) then
+		if (id) then
 			unitName = "Arena "..id
 		end
 	elseif (unitRealm) and (unitRealm ~= "") then

@@ -4,33 +4,33 @@ ns.classModule = {}
 local function updateTotemPosition()
 	local _, class = UnitClass("player")
 	TotemFrame:ClearAllPoints()
-	if ( class == "PALADIN" or class == "DEATHKNIGHT"  ) then
-		local hasPet = oUF_AbuPet and oUF_AbuPet:IsShown();
+	if (class == "PALADIN" or class == "DEATHKNIGHT") then
+		local hasPet = oUF_AbuPet and oUF_AbuPet:IsShown()
 		if (hasPet) then
 			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12)
 		else
 			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 17, 0)
 		end
-	elseif ( class == "DRUID" ) then
-		local form  = GetShapeshiftFormID();
-		if ( form == CAT_FORM ) then
+	elseif (class == "DRUID") then
+		local form  = GetShapeshiftFormID()
+		if (form == CAT_FORM) then
 			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 37, -5)
 		else
 			TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 57, 0)
 		end
-	elseif ( class == "MAGE" ) then
+	elseif (class == "MAGE") then
 		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", 0, -12)
-	elseif ( class == "MONK" ) then
+	elseif (class == "MONK") then
 		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12)
-	elseif ( class == "SHAMAN" ) then
-		local form  = GetShapeshiftFormID();
+	elseif (class == "SHAMAN") then
+		local form  = GetShapeshiftFormID()
 		TotemFrame:SetPoint("TOP", oUF_AbuPlayer, "BOTTOM", 27, -10)
 		if not ns.Classic then
-			if ( ( GetSpecialization() == SPEC_SHAMAN_RESTORATION ) or ( form == 16 ) ) then -- wolf form
+			if ((GetSpecialization() == SPEC_SHAMAN_RESTORATION) or (form == 16)) then -- wolf form
 				TotemFrame:SetPoint("TOP", oUF_AbuPlayer, "BOTTOM", 27, 2)
 			end
 		end
-	elseif ( class == "WARLOCK" ) then
+	elseif (class == "WARLOCK") then
 		TotemFrame:SetPoint("TOPLEFT", oUF_AbuPlayer, "BOTTOMLEFT", -18, -12)
 	end
 end
@@ -76,7 +76,7 @@ function ns.classModule.DEATHKNIGHT(self, config)
 		RuneFrame:ClearAllPoints()
 		RuneFrame:SetPoint("TOP", self, "BOTTOM", 33, -1)
 		if (ns.config.playerStyle == "normal") then
-			RuneFrame:SetFrameStrata("LOW");
+			RuneFrame:SetFrameStrata("LOW")
 		end
 		for _, v in next, RuneFrame.Runes do
 			ns.PaintFrames(v.Rune, 0.3)
@@ -130,7 +130,7 @@ function ns.classModule.PALADIN(self, config, uconfig)
 		PaladinPowerBarFrame:SetScale(uconfig.scale * 0.81)
 		PaladinPowerBarFrame:ClearAllPoints()
 		PaladinPowerBarFrame:SetPoint("TOP", self, "BOTTOM", 27, 4)
-		PaladinPowerBarFrame:SetFrameStrata("LOW");
+		PaladinPowerBarFrame:SetFrameStrata("LOW")
 		ns.PaintFrames(PaladinPowerBarFrameBG, 0.1)
 		return PaladinPowerBarFrame
 	end
@@ -151,7 +151,7 @@ function ns.classModule.WARLOCK(self, config)
 		WarlockPowerFrame:ClearAllPoints()
 		WarlockPowerFrame:SetPoint("TOP", self, "BOTTOM", 29, -2)
 		if (ns.config.playerStyle == "normal") then
-			WarlockPowerFrame:SetFrameStrata("LOW");
+			WarlockPowerFrame:SetFrameStrata("LOW")
 		end
 		local shard = WarlockPowerFrame.Shards[#WarlockPowerFrame.Shards]
 		while shard do

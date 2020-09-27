@@ -88,7 +88,7 @@ Filters:
 						2 	 = Hide on friendly
 						3 	 = Hide all
 					On NPC's:  Show only mine
-						0	 = Show Always ( Even when not Mine )
+						0	 = Show Always (Even when not Mine)
 						1 	 = Show only mine - no effect.
 						2 	 = Hide on friendly
 						3 	 = Hide Mine

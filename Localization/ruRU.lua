@@ -1,5 +1,5 @@
 local _, ns = ...
-if ns.locale ~= "ruRU" then return; end
+if ns.locale ~= "ruRU" then return end
 local L = ns.L
 
 -- [[ Main Addon ]] --

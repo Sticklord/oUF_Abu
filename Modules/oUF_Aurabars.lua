@@ -127,7 +127,7 @@ local function Enable(self)
 		bar.__owner = self
 		bar.ForceUpdate = ForceUpdate
 
-		if(not bar:GetStatusBarTexture()) then
+		if (not bar:GetStatusBarTexture()) then
 			bar:SetStatusBarTexture([=[Interface\TargetingFrame\UI-StatusBar]=])
 		end
 		bar:Hide()

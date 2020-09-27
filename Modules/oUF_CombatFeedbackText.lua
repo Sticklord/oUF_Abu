@@ -44,12 +44,12 @@ local function createUpdateFrame()
 		for object, startTime in pairs(feedback) do
 			local maxalpha = object.CombatFeedbackText.maxAlpha
 			local elapsedTime = GetTime() - startTime
-			if ( elapsedTime < COMBATFEEDBACK_FADEINTIME ) then
+			if (elapsedTime < COMBATFEEDBACK_FADEINTIME) then
 				local alpha = maxalpha*(elapsedTime / COMBATFEEDBACK_FADEINTIME)
 				object.CombatFeedbackText:SetAlpha(alpha)
-			elseif ( elapsedTime < (COMBATFEEDBACK_FADEINTIME + COMBATFEEDBACK_HOLDTIME) ) then
+			elseif (elapsedTime < (COMBATFEEDBACK_FADEINTIME + COMBATFEEDBACK_HOLDTIME)) then
 				object.CombatFeedbackText:SetAlpha(maxalpha)
-			elseif ( elapsedTime < (COMBATFEEDBACK_FADEINTIME + COMBATFEEDBACK_HOLDTIME + COMBATFEEDBACK_FADEOUTTIME) ) then
+			elseif (elapsedTime < (COMBATFEEDBACK_FADEINTIME + COMBATFEEDBACK_HOLDTIME + COMBATFEEDBACK_FADEOUTTIME)) then
 				local alpha = maxalpha - maxalpha*((elapsedTime - COMBATFEEDBACK_HOLDTIME - COMBATFEEDBACK_FADEINTIME) / COMBATFEEDBACK_FADEOUTTIME)
 				object.CombatFeedbackText:SetAlpha(alpha)
 			else

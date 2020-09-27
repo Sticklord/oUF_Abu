@@ -99,7 +99,7 @@ local Update = function(self, _, unit)
 				UnitDebuff = nil
 				index = 0
 			else
-				break;
+				break
 			end
 		end
 	end
