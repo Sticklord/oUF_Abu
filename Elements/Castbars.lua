@@ -164,6 +164,7 @@ function ns.CreateCastbars(self)
 	local Spark = Castbar:CreateTexture(nil, "ARTWORK", nil, 1)
 	Spark:SetSize(15, (uconfig.cbheight * 2))
 	Spark:SetBlendMode("ADD")
+	Spark:SetPoint("CENTER", Castbar:GetStatusBarTexture(), "RIGHT", 0, 0)
 	Castbar.Spark = Spark
 
 	if (uconfig.cbicon ~= "NONE") then
