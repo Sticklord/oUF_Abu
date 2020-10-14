@@ -13,9 +13,9 @@ local function FormatTime(time)
 	return format("%d", math.fmod(time, 60))
 end
 
-oUF.Tags.Events["abu:additionalpower"] = "UNIT_POWER_UPDATE UNIT_DISPLAYPOWER UNIT_MAXPOWER"
+oUF.Tags.Events["abu:additionalpower"] = "UNIT_POWER_FREQUENT UNIT_DISPLAYPOWER UNIT_MAXPOWER"
 oUF.Tags.Methods["abu:additionalpower"] = function(unit)
-	local min, max = UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA)
+	local min, max = UnitPower(unit, ADDITIONAL_POWER_BAR_INDEX), UnitPowerMax(unit, ADDITIONAL_POWER_BAR_INDEX)
 	if (min == max) then
 		return ns.FormatValue(min)
 	else
