@@ -280,9 +280,7 @@ function ns.UpdateHealthOverride(self, event, unit)
 		self.Health:SetValue(cur)
 	end
 	self.Health.disconnected = disconnected
-	self.Health:UpdateColor(unit, cur, max)
 	updateAbsorbBars(self.Health, unit, cur, max)
-
 	ns.PostUpdateHealth(self.Health, unit, cur, max)
 end
 
