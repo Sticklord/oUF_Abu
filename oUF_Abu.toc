@@ -1,8 +1,8 @@
-## Interface: 80300
+## Interface: 90001
 ## Author: Abu
 ## Title: oUF_|cffffffffAbu|r
 ## RequiredDeps: oUF
-## Version: 8.3-0
+## Version: 9.0-0
 ## SavedVariables: oUFAbuSettings, oUFAbuAuraFilters
 ## SavedVariablesPerCharacter: oUFAbuProfile
 
